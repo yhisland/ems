@@ -1,0 +1,44 @@
+/** page structure **/
+#w {
+	display: block;
+	width: 750px;
+	margin: 0 auto;
+	padding-top: 30px;
+}
+
+#content {
+	display: block;
+	width: 100%;
+	background: #fff;
+	padding: 25px 20px;
+	padding-bottom: 35px;
+	-webkit-box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+	-moz-box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+	box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 2px 0px;
+}
+
+/** modal window styles **/
+#lean_overlay {
+	position: fixed;
+	z-index: 100;
+	top: 0px;
+	left: 0px;
+	height: 100%;
+	width: 100%;
+	background: #000;
+	display: none;
+}
+
+#subscribeDateBox {
+	width: 300px;
+	height: 150px;
+	border: 1px solid #cadcb2;
+	background-color: #F3F6FA;
+	text-align:center;
+	display: none;
+}
+
+form div.div1{
+	width:100%;
+	margin:12px 5px;
+}

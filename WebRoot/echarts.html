@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <title>ECharts</title>
+</head>
+<body>
+    <!-- 为ECharts准备一个具备大小（宽高）的Dom -->
+    <div id="main1" style="height:310px;width:1200px;margin:auto;top:10px;"></div>
+    <!-- ECharts单文件引入 -->
+    <script src="lib/echarts/echarts.js"></script>
+    
+<!-- <body style="padding:0px;height:100%; text-align:center;">
+<input type="hidden" id="MenuNo" value="WMS011" />
+<div id="mainsearch" style=" width:99.9%;max-height:520px;">
+	<div class="searchtitle"> <span>搜索</span><img src="${root}/lib/icons/32X32/searchtool.gif" />
+		<div class="togglebtn"></div>
+	</div>
+	<div class="navline" style="margin-bottom:4px; margin-top:4px;"></div>
+	<div class="searchbox">
+		<form id="formsearch" class="l-form"></form>	
+	</div>		
+<div id="maingrid" ></div>
+</div>
+<div id="main1" style="height:310px;width:1200px;margin:auto;top:10px;"></div>
+ -->
+
+    <script type="text/javascript">
+     //图形
+ 		  var shop_name=null;
+		  var data1=["衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子"];
+		  var data2=[5, 20, 40, 10, 10, 20];
+	  	  
+/* 		$.ajax({
+				type:'post',
+				url:'/dsr_trend/getList',
+				data:'where='+liger.toJSON(sData),
+				async:false,
+				success:function(data){ 
+				var list = eval(data);
+				shop_name=list[0].SHOP_NAME;
+				$.each(list,function(n,value){
+				data1.push( list[n].CREATDATE );
+				data2.push( list[n].DSR_QUAL );
+				data3.push( list[n].DSR_DELI );
+				data4.push( list[n].DSR_SERV );
+				data5.push( list[n].DSR_LOGI );
+							  });
+      	        	}
+	});  */
+		// 路径配置
+        require.config({
+            paths:{ 
+                'echarts' : 'lib/echarts'//'./lib/js/echarts',          //echarts.js路径
+//                'echarts/chart/bar' : 'lib/echarts',//'./lib/js/echarts',
+//                'echarts/chart/line' : 'lib/echarts'//'./lib/js/echarts'
+            }
+        });
+   		//使用
+		require([ 
+					'echarts', 
+					'echarts/chart/bar', // 使用柱状图就加载bar模块，按需加载
+					'echarts/chart/line' // 使用折线图就加载line模块，按需加载
+		], 
+		function(ec) {
+			// 基于准备好的dom，初始化echarts图表
+			var myChart = ec.init(document.getElementById('main1'));
+			var option = {
+				// 定义默认色板
+				color: [
+					        '#2ec7c9','#b6a2de','#5ab1ef','#ffb980','#d87a80',
+					        '#8d98b3','#e5cf0d','#97b552','#95706d','#dc69aa',
+					        '#07a2a4','#9a7fd1','#588dd5','#f5994e','#c05050',
+					        '#59678c','#c9ab00','#7eb00a','#6f5553','#c14089'
+				],
+			    // 图表标题
+				title : {
+					text : '宝贝与描述相符DSR',
+			        textStyle: {
+		            fontWeight: 'normal',
+		            color: '#008acd'          // 主标题文字颜色
+        			},
+        			subtext : "副标题"
+				},
+				
+				// 工具箱
+				toolbox : {
+				//	color : ['#1e90ff', '#1e90ff', '#1e90ff', '#1e90ff'],//颜色
+        		//	effectiveColor : '#ff4500',
+					show : true,
+					feature : {
+					            mark : {show: true},
+					            dataZoom : {show: true},
+					            magicType : {show: true, type:['line', 'bar']},
+					            restore : {show: true},
+					            saveAsImage : {show: true}
+						}
+				},
+				
+				// 提示框							  
+				tooltip : {
+				 	trigger: 'axis',
+					show : true
+				},	
+				//图例		
+				legend : {
+					data : [ '宝贝描述'  /*， '销量', '金额' */], //可与series.name关联
+					selected : {
+					//	'宝贝描述' : false
+					},
+				},
+				xAxis : [ {
+					type : 'category',
+					boundaryGap : false,
+					data : data1	//横坐标数据
+				} ],
+				yAxis : [ {
+				type : 'value',
+				scale:true,
+				precision:4,		//数值小数精确位数
+			//	max:100,	//设置表格纵坐标最大值
+				boundaryGap:[0.003,0.003]
+				}],
+				series : [{
+					name: "宝贝描述",
+					type: "line",   //		图表类型，必要参数！如为空或不支持类型，则该系列数据不被显示。可选为：
+									//		'line'（折线图） | 'bar'（柱状图） | 'scatter'（散点图） | 'k'（K线图）
+									//		'pie'（饼图） | 'radar'（雷达图） | 'chord'（和弦图） | 'force'（力导向布局图） | 'map'（地图）
+					data: data2,
+					//标记最值
+					markPoint : {
+		                data : [
+		                    {type : 'max', name: '最大值'},
+		                    {type : 'min', name: '最小值'}
+		                ]
+		            },
+		            //计算平均值
+ 		            markLine : {
+		                data : [
+		                    {type : 'average', name: '平均值'}
+		                ]
+		            },
+					smooth:true,	//是否平滑曲线显示
+					symbolSize: 2,	//标志图形大小
+					itemStyle: {
+    					normal: {
+    				//	    areaStyle: {type: 'default'}, //面积图
+							borderWidth:3,//标志点大小
+	        		//		color:'#0066CC',//线条颜色
+	        				lineStyle :{
+	        				width:'2'		//线条粗细
+	        				}
+	    				}
+	    			}
+				}]
+			};
+			//点击获取数值坐标
+			var ecConfig = require('echarts/config');
+			function eConsole(param) {
+			    var mes = param.type;
+			    	alert("获取mes坐标mes="+mes);
+			        mes += '  seriesIndex : ' + param.seriesIndex;
+			        alert("mes="+mes);
+			        mes += '  dataIndex : ' + param.dataIndex;
+			       alert("mes="+mes);
+			    if (param.type == 'click') {
+			    		var shop_name=data1[param.dataIndex];
+			//    		alert("data1="+data1[param.dataIndex]);
+			    		Detail(shop_name);
+			    }
+			    console.log(param);
+			}
+			
+			myChart.on(ecConfig.EVENT.CLICK, eConsole);
+			myChart.on(ecConfig.EVENT.LEGEND_SELECTED, eConsole);
+			myChart.on(ecConfig.EVENT.MAGIC_TYPE_CHANGED, eConsole);
+			myChart.on(ecConfig.EVENT.DATA_VIEW_CHANGED, eConsole); 			
+			
+				// 为echarts对象加载数据 			
+				myChart.setOption(option);
+			});	
+
+         
+            
+            
+       
+    </script>
+</body>

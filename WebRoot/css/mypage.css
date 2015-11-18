@@ -1,0 +1,58 @@
+@charset "utf-8";
+/* CSS Document */
+
+.mypage{
+    text-align:center;
+    margin-top:10px;
+}
+.mypage ul {
+    list-style-type: none;
+    margin:0;
+    padding:0;
+    display:inline-block;
+}
+.mypage ul>li {
+    float: left;
+    margin: 0 4px;
+}
+.mypage ul>li>a,.mypage ul>li>span {
+    display:inline-block;
+    line-height: 40px;
+    height:40px;
+    text-align:center;
+    text-decoration: none;
+    font-size: 14px;
+    background-color: #FFFFFF;
+    border:1px solid #DDDDDD;
+    border-radius:3px;
+    -moz-border-radius:3px;
+    -webkit-border-radius:3px;
+    color:#3399FF;
+}
+.mypage>ul>li.word>a,.mypage>ul>li.word>span{
+    width:auto;
+    padding:0 10px;
+}
+.mypage >ul>li.active span{
+    background-color: #428BCA;
+    color:white;
+    font-weight:bold;   
+}
+.mypage>ul>li.disabled span{
+    cursor:not-allowed;
+    color:#333333;
+}
+.mypage ul>li>a:hover{
+    color:white;
+    background-color: #DDDDDD;
+    cursor:pointer;
+}
+.mypage ul>li>input.go{
+    border-radius:3px;
+    -moz-border-radius:3px;
+    -webkit-border-radius:3px;
+    border:1px solid #EEEEEE;
+}
+.mypage ul>li>input.go:focus{
+    border-color:#428BCA;
+}

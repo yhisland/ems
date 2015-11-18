@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <title>861</title>
+    
+    <script src="lib/jquery/jquery-1.4.4.min.js" type="text/javascript"></script>
+    <script src="lib/echarts/echarts.js"></script>
+</head>
+<body>
+    <div id="main1" style="height:310px;width:1000px;margin:auto;top:10px;"></div>
+    <script type="text/javascript">
+     //图形
+//$(function(){     
+ 		var shop_name=null;
+ 		var sData ={};
+/*  		var type='w';
+ 		'${type}'
+ 		var types='${type}'
+ 		alert(type)
+ 		alert(types) */
+ 		
+		var data1=[/* "衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子" */];
+		var data2=[/* 5, 2, 4, 10, 16, 9 */];
+		var data3=[7, 3, 2, 12, 8, 12];
+  	  
+		$.ajax({
+				type:'post',
+				url:'/complain/getList',
+				data:'where= '/* +liger.toJSON(sData) */,
+				async:false,
+				success:function(data){ 
+				var list = eval(data);
+			//	shop_name=list[0].SITE;
+				$.each(list,function(n,value){
+				data1.push( list[n].site );
+ 				data2.push( list[n].id );
+ 				alert("data1="+data1+"data2="+data2)
+							  });
+      	        	}
+	}); 
+
+		// 路径配置
+        require.config({
+            paths:{ 
+                'echarts' : 'lib/echarts'
+            }
+        });
+   		//使用
+		require([ 
+					'echarts', 
+					'echarts/chart/bar', // 使用柱状图就加载bar模块，按需加载
+					'echarts/chart/line' // 使用折线图就加载line模块，按需加载
+		], 
+		function(ec) {
+			// 基于准备好的dom，初始化echarts图表
+			var myChart = ec.init(document.getElementById('main1'));
+			var option = {
+				// 定义默认色板
+				color: [
+					        '#2ec7c9','#b6a2de','#5ab1ef','#ffb980','#d87a80',
+					        '#8d98b3','#e5cf0d','#97b552','#95706d','#dc69aa',
+					        '#07a2a4','#9a7fd1','#588dd5','#f5994e','#c05050',
+					        '#59678c','#c9ab00','#7eb00a','#6f5553','#c14089'
+				],
+			    // 图表标题
+				title : {
+					text : '86月报分析',
+			        textStyle: {
+		            fontWeight: 'normal',
+		            color: '#008acd'          // 主标题文字颜色
+        			}
+				},
+				
+				// 工具箱
+				toolbox : {
+				//	color : ['#1e90ff', '#1e90ff', '#1e90ff', '#1e90ff'],//颜色
+        		//	effectiveColor : '#ff4500',
+					show : true,
+					feature : {
+					            mark : {show: true},
+					            dataZoom : {show: true},
+					            magicType : {show: true, type:['line', 'bar']},
+					            restore : {show: true},
+					            saveAsImage : {show: true}
+						}
+				},
+				
+				// 提示框							  
+				tooltip : {
+				 	trigger: 'axis',
+					show : true
+				},	
+				//图例		
+				legend : {
+					data : [ '本月投诉','上月投诉'], //可与series.name关联
+					selected : {
+						'上月投诉' : false
+					},
+				},
+				xAxis : [ {
+					type : 'category',
+					boundaryGap : false,
+					data : data1	//横坐标数据
+				} ],
+				yAxis : [ {
+				type : 'value',
+				scale:true,
+			//	precision:4,		//数值小数精确位数
+			//	max:100,	//设置表格纵坐标最大值
+				boundaryGap:[0.003,0.003]
+				}],
+				series : [{
+					name: "本月投诉",
+					type: "line",   //		图表类型，必要参数！如为空或不支持类型，则该系列数据不被显示。可选为：
+									//		'line'（折线图） | 'bar'（柱状图） | 'scatter'（散点图） | 'k'（K线图）
+									//		'pie'（饼图） | 'radar'（雷达图） | 'chord'（和弦图） | 'force'（力导向布局图） | 'map'（地图）
+					data: data2,
+					//标记最值
+					markPoint : {
+		                data : [
+		                    {type : 'max', name: '最大值'},
+		                    {type : 'min', name: '最小值'}
+		                ]
+		            },
+		            //计算平均值
+ 		            markLine : {
+ 		           		precision:1,
+		                data : [
+		                    {type : 'average', name: '平均值'}
+		                ]
+		            },
+					smooth:true,	//是否平滑曲线显示
+					symbolSize: 2,	//标志图形大小
+					itemStyle: {
+    					normal: {
+    					    areaStyle: {type: 'default'}, 
+							borderWidth:3,//标志点大小
+	        		//		color:'#FF0000',//线条颜色
+	        				lineStyle :{
+	        				width:'2'		//线条粗细
+	        				}
+	    				}
+	    			}
+				},
+				{
+					name: "上月投诉",
+					type: "line",   //		图表类型，必要参数！如为空或不支持类型，则该系列数据不被显示。可选为：
+									//		'line'（折线图） | 'bar'（柱状图） | 'scatter'（散点图） | 'k'（K线图）
+									//		'pie'（饼图） | 'radar'（雷达图） | 'chord'（和弦图） | 'force'（力导向布局图） | 'map'（地图）
+					data: data3,
+/* 					//标记最值
+					markPoint : {
+		                data : [
+		                    {type : 'max', name: '最大值'},
+		                    {type : 'min', name: '最小值'}
+		                ]
+		            },
+		            //计算平均值
+ 		            markLine : {
+		                data : [
+		                    {type : 'average', name: '平均值'}
+		                ]
+		            }, */
+					smooth:true,	//是否平滑曲线显示
+					symbolSize: 2,	//标志图形大小
+					itemStyle: {
+    					normal: {
+    						areaStyle: {type: 'default'}, 
+							borderWidth:3,//标志点大小
+	        				color:'#FF0000',//线条颜色
+	        				lineStyle :{
+	        				width:'2'		//线条粗细
+	        				}
+	    				}
+	    			}
+				}]
+			};
+				// 为echarts对象加载数据 			
+				myChart.setOption(option);
+			});	
+//		});
+
+         
+            
+            
+       
+    </script>
+</body>
