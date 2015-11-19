@@ -24,21 +24,23 @@ public class StaticResourceController extends Controller
      * 跳转到修改密码界面
      */
     public void updatepwJsp(){
-    	render("/index.htm");
+    	render("/index.html");
     }
     
     /**
      * 跳转到展示用户信息界面
      */
     public void showinfoJsp(){
-    	render("/showinfo.jsp");
+    	render("/86_analysis.html");
+//    	render("/showinfo.jsp");    	
     }
     
     /**
      * 跳转到新增用户界面
      */
     public void addUserJsp(){
-    	render("/addUser.jsp");
+    	render("/86Test.html");
+//    	render("/addUser.jsp");
     }
     
     

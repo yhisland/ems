@@ -6,9 +6,10 @@ import java.util.List;
 import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
-import com.jfinal.kit.StringKit;
+import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
+import com.jfinal.plugin.activerecord.Record;
 import com.manager.config.EmsConfig;
 import com.manager.util.RegexUtil;
 
@@ -29,6 +30,8 @@ public class Complain extends Model<Complain> {
 	public final static String QUERY_ALL_COMPLAININFO = "select * from complain_table";
 	public final static String QUERY_COMPLAIN_NUMBER = "select * from complain_table where complainPhone=?";
 
+	Page<Record> list;		
+	
 	/**
 	 * 获取指定投诉id的维修记录
 	 * 
@@ -45,6 +48,61 @@ public class Complain extends Model<Complain> {
 		return complainlist;
 	}
 
+	/**
+	 * 查找所有
+	 */		
+	public Map<String, Object> selectAll(int page,int pagesize,JSONObject jObject,String sortname,String sortorder){
+		String select="select * ";
+
+		String sqlExceptSelect=" from complain_table "
+				 +" where 1 = 1 ";
+		
+		StringBuffer  sb=new StringBuffer();
+		sb.append(sqlExceptSelect);
+/*		//查找
+		//按周或月
+		if (StringKit.notBlank(jObject.getString("DATE"))) {
+			if (jObject.getString("DATE").length()<=7) {
+				String date3   = jObject.getString("DATE");
+				sb.append("  and  substr(to_char(creatdate,'yyyy-mm-dd'),1,7) = '"+date3+"' ");
+			}else if(jObject.getString("DATE").length()>10) {
+				String date   = jObject.getString("DATE").substring(0,10);
+				String date2  =jObject.getString("DATE").substring(11,21); 
+				sb.append("  and  to_char(creatdate,'yyyy-mm-dd') <= '"+date2+"' ");
+				sb.append("  and  to_char(creatdate,'yyyy-mm-dd') >= '"+date+"' ");
+			}
+		}		
+		//自定义时间查询
+		//开始时间
+		if (StringKit.notBlank(jObject.getString("DATE1"))) {
+			String DATE1= jObject.getString("DATE1");
+			DATE1=DATE1.substring(0,10);
+			sb.append(" and to_char(creatdate,'yyyy-mm-dd') >='"+DATE1+"' ");
+		}
+		//结束时间
+		if (StringKit.notBlank(jObject.getString("DATE2"))) {
+			String DATE2= jObject.getString("DATE2");
+			DATE2=DATE2.substring(0,10);
+			sb.append(" and to_char(creatdate,'yyyy-mm-dd') <='"+DATE2+"' ");
+		}		
+		//店铺
+		if (StringKit.notBlank(jObject.getString("SHOP_HEAD_ID"))) {
+			String shop_head_id= jObject.getString("SHOP_HEAD_ID");
+			sb.append(" and shop_head.shop_head_id = '"+shop_head_id+"'" );
+		}
+		//排序
+		if (StringKit.notBlank(sortname)) {
+			sb.append(" order by " +sortname+" "+sortorder );
+		}else{
+			sb.append("   order by  creatdate  ");
+		}*/
+		Map<String, Object> map = new HashMap<String, Object>();
+		list = Db.paginate(page, pagesize, select, sb.toString());
+		map.put("Rows", list.getList());
+		map.put("Total", list.getTotalRow());		
+		return (map);
+	}	
+	
 	/**
 	 * 显示图表
 	 */		

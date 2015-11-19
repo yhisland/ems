@@ -15,8 +15,6 @@ import com.jfinal.kit.JsonKit;
 import com.manager.comm.FileUpload;
 import com.manager.interceptor.LogInterceptor;
 import com.manager.model.Complain;
-import com.manager.model.Complain;
-import com.manager.model.Device;
 import com.manager.model.User;
 import com.manager.util.ExcelUtil;
 
@@ -47,6 +45,23 @@ public class ComplainController extends Controller{
 		render("/addComplain.jsp");
 	}
 
+	/**
+	 * 查找所有
+	 */		
+	public void selectAll(){
+		System.out.println("selectAll**************************************************");
+		String str="{}";
+		JSONObject obj = new JSONObject();
+	    obj=JSONObject.parseObject(getPara("where",str));
+		int page=getParaToInt("page",1);
+		int pagesize=getParaToInt("pagesize",20);
+		String sortname = getPara("sortname");
+		String sortorder = getPara("sortorder");
+		Map<String, Object> map =Complain.dao.selectAll(page, pagesize, obj,sortname,sortorder);
+		System.out.println("**************************************************selectAll");
+		renderJson(map);
+	}	
+	
 	/**
 	 * 显示图表
 	 */	
