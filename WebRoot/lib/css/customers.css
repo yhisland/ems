@@ -1,0 +1,35 @@
+ul,li{ margin:0;padding:0; list-style:none;}
+.warnbox{
+	padding-left:12px;
+	height:30px;
+	border:1px solid #f4f4f4;
+	background-color:#f4f4f4;
+	}
+.warnbox li{
+	float:left;
+	margin-right:20px;
+	line-height:30px;
+	font-size:12px;
+	font-family:"宋体";
+	}
+.warnbox .warnright{
+	float:right;
+	}
+.warnbox li a{
+	text-decoration:none;
+	}
+.warnbox li a:hover{
+	text-decoration:underline;
+	}
+.color1{ 
+color:#404040;
+}
+.color2{ 
+color:#3366cc;
+}
+.color2 span{ 
+color:#cc3333;
+}
+.color3{ 
+color:#ff6600;
+}

@@ -1,0 +1,163 @@
+@charset "utf-8";
+/* 代码整理：懒人之家 lanrenzhijia.com */
+body {
+	background-color: rgb(220,220,220);
+	padding: 0;
+	margin: 0;
+	font-size: 16px;
+	font-family: sans-serif;
+}
+.clearfix:after {
+	content: "";
+	display: block;
+	height: 0;
+	width: 0;
+	clear: both;
+}
+.admin-panel {
+	width: 990px;
+	margin: 50px auto;
+}
+
+/*main*/
+.main {
+	float: left;
+	width: 100%;
+	height: 100%;
+	background-color: rgb(255,255,255);
+	position: relative;
+	font-family: helvetica, verdana, sans-serif;
+}
+.main .topbar {
+	border-bottom: 1px solid rgb(235,235,235);
+	margin: 0;
+	padding: 0;
+}
+
+
+#dashboard>div {
+	border: 1px solid rgb(205,205,205);
+	margin-left: 30px;
+	margin-top: 10px;
+	float: left;
+	border-radius: 5px;
+	width: 45%;
+	height: 330px;
+	display: inline-block;
+}
+.monitor ul {
+	float: left;
+	padding: 0;
+	margin: 0 31px 0 17px;
+}
+.monitor li {
+	list-style:none;
+	font: 600 14px/28px helvetica, verdana, sans-serif;
+	color: rgb(102,102,102);
+	text-transform: capitalize;
+}
+.monitor li a {
+	color: rgb(102,102,102);
+	text-transform: capitalize;
+	text-decoration: none;
+}
+.monitor li:first-child {
+	border-bottom: 1px dotted rgb(153,153,153);
+}
+.monitor .count {
+	color: rgb(27,106,173);
+	text-align: right;
+	font-weight: 600;
+	margin-right: 15px;
+	min-width: 25px;
+	display: inline-block;
+}
+.monitor p {
+	color: rgb(128,128,128);
+	margin: 28px 0 18px 17px;
+	display: block;
+	font-weight: 600;
+	font-size: 12px;
+}
+.monitor p a {
+	text-decoration: none;
+	color:rgb(27,106,173);
+}
+.quick-press form {
+	margin:0 20px 0 13px;
+}
+.quick-press input[type="text"] {
+	display: block;
+	width: 100%;
+	-moz-box-sizing:border-box;
+	box-sizing:border-box;
+	height: 35px;
+	line-height: 15px;
+	padding: 10px 0;
+	margin:0 0 7px 0;
+	background-color: rgb(246,246,246);
+	outline: none;
+	border: none;
+	text-indent: 10px;
+}
+		/*统一各浏览器下placeholder内的字体样式*/
+		.quick-press input[type="text"]::-webkit-input-placeholder {
+font-size: 14px;
+}
+ .quick-press input[type="text"]:-moz-input-placeholder {
+font-size: 14px;
+}
+ .quick-press input[type="text"]::-moz-input-placeholder {
+font-size: 14px;
+}
+ .quick-press input[type="text"]:-ms-input-placeholder {
+font-size: 14px;
+}
+.quick-press button {
+	margin-top: 13px;
+	border-radius: 5px;
+	text-align: center;
+	line-height: 30px;
+	padding: 0;
+}
+.quick-press .save, .quick-press .delet {
+	font-family: 'icomoon';
+	width: 37px;
+	background: -webkit-linear-gradient(top, rgb(246,246,240), rgb(232,232,232));
+	background: -moz-linear-gradient(top, rgb(246,246,240), rgb(232,232,232));
+	background: -ms-linear-gradient(top, rgb(246,246,240), rgb(232,232,232));
+	background: linear-gradient(top, rgb(246,246,240), rgb(232,232,232));
+	border: 1px solid rgb(229,229,229);
+	color: rgb(102,102,102);
+	float: left;
+	margin-right: 5px;
+}
+.quick-press .save:hover, .quick-press .delet:hover {
+	background: -webkit-linear-gradient(top, rgb(232,232,232), rgb(246,246,240));
+	background: -moz-linear-gradient(top, rgb(232,232,232), rgb(246,246,240));
+	background: -ms-linear-gradient(top, rgb(232,232,232), rgb(246,246,240));
+	background: linear-gradient(top, rgb(232,232,232), rgb(246,246,240));
+}
+.quick-press .save:active, .quick-press .delet:active {
+	background: -webkit-linear-gradient(top, rgb(228,228,228), rgb(210,210,210));
+	background: -moz-linear-gradient(top, rgb(228,228,228), rgb(210,210,210));
+	background: -ms-linear-gradient(top, rgb(228,228,228), rgb(210,210,210));
+	background: linear-gradient(top, rgb(228,228,228), rgb(210,210,210));
+}
+.quick-press .submit {
+	float: right;
+	width: 70px;
+	border: 1px solid rgb(238,85,64);
+	color: #fff;
+	font-size: 16px;
+	background: -webkit-linear-gradient(top, rgb(245,101,82), rgb(234,83,63));
+	background: -moz-linear-gradient(top, rgb(245,101,82), rgb(234,83,63));
+	background: -ms-linear-gradient(top, rgb(245,101,82), rgb(234,83,63));
+	background: linear-gradient(top, rgb(245,101,82), rgb(234,83,63));
+}
+.quick-press .submit:hover {
+	background: -webkit-linear-gradient(top, rgb(220,85,70), rgb(210,65,53));
+	background: -moz-linear-gradient(top, rgb(220,85,70), rgb(210,65,53));
+	background: -ms-linear-gradient(top, rgb(220,85,70), rgb(210,65,53));
+	background: linear-gradient(top, rgb(220,85,70), rgb(210,65,53));
+}

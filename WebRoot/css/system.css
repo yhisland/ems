@@ -1,0 +1,6 @@
+@charset "utf-8";
+/* CSS Document */
+.l-layout-header{font-weight:normal;position:relative;padding-left:10px; color:#479AC7; font-size:14px;font-family:"微软雅黑";height:25px; line-height:24px;   overflow:hidden; cursor:pointer}
+.l-accordion-header{ font-weight:normal;position:relative;padding-left:10px; color:#479AC7; font-size:14px;font-family:"微软雅黑";height:25px; line-height:24px;   overflow:hidden; cursor:pointer;}
+ .l-link:active{ background:#4388ce;color:#ffffff; background-image:url('../../../../lib/images/002.png');background-repeat:no-repeat;background-position:8px 9px;}
+ .l-topmenu-welcome a:hover{ color:#f32d3f; text-decoration:none;} 

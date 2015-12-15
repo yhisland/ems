@@ -1,0 +1,315 @@
+li{list-style:none;}
+body{background:#f1f1f1;}
+pre{
+word-break:break-all;
+white-space:pre-wrap;
+
+}
+.rightbox{
+	width:290px;
+	border:solid 1px #eae8e8;
+	background-color:#ffffff;
+	right:10px;
+	top:0px;
+	position:absolute;
+	height:280px;
+	}
+.righttext1{
+	width:290px;
+	height:68px;
+	background:url(/Images/zhidao/rightpic.png) no-repeat;
+
+	}
+.righttext2{
+	color:#737475;
+	font-size:12px;
+	height:12px;
+	font-family:"ËÎÌå";
+	line-height:12px;
+	text-align:center;
+	margin-bottom:20px;
+	}
+.numbox{
+	overflow:hidden;
+	margin-left:25px;
+	margin-top:10px;
+	margin-bottom:10px;
+	}
+.numbox li{float:left;
+	margin-right:3px;
+	}
+.num{
+	width: 16px;
+	height: 20px;
+	color:#444444;
+	background:url(/Images/zhidao/num.png) no-repeat;
+	font-size:14px;
+	font-family:"ËÎÌå";
+	line-height:18px;
+	text-align:center;
+	font-weight:bold;
+	}
+.numtext{
+	color:#181818;
+	font-size:14px;
+	font-family:"ËÎÌå";
+	line-height:18px;
+	}
+.numsign{
+	width:6px;
+	color:#181818;
+	font-size:12px;
+	font-family:"ËÎÌå";
+	line-height:18px;
+	}
+.rightbtnbox{
+		overflow:hidden;
+		margin-left:38px;
+		margin-top:15px;
+	margin-bottom:25px;
+	}
+.rightbtnbox li{
+	float:left;
+	}
+.rightbtn{
+	background:url(/Images/zhidao/btn.png) no-repeat;
+	width: 100px;
+	height: 32px;
+	color:#FFFFFF;
+	font-size:12px;
+	font-family:"ËÎÌå";
+	line-height:32px;
+	text-align:center;
+	margin-right:15px;
+	}
+.bgfather{
+	width:1200px;
+	margin:auto;
+	position:relative;
+	}
+.bg{
+	min-height:700px;
+	background:#ffffff;
+	border:1px solid #dfdede;
+	width:880px;
+	margin-top:20px;
+	padding-top:5px;
+	margin-bottom:20px;
+	padding-bottom:120px;
+	position:relative;
+	box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+	}
+
+.list{
+	margin-left:10px;
+	padding-left:60px;
+	padding-top:6px;
+	padding-bottom:6px;
+	width:800px;
+	line-height:22px;
+	font-size:14px;
+	font-family:"Î¢ÈíÑÅºÚ";
+	color:#2676b6;
+	}
+.listline{
+	margin-left:10px; 
+	width:860px;
+	height:1px;
+	background:#ffffff url(/Images/zhidao/line.png);
+}
+.list:hover{
+	background:#f7f9fc;
+/* 	padding-left:60px; */
+	}
+.list a:hover{
+	color:#f41b34;
+	}
+.goodbox{
+ overflow:hidden;
+
+}
+.goodbox li{
+ float:left;
+}
+.goodbox .goodright{
+margin-right:20px;
+ float:right;
+}
+.good{
+font-family:"ËÎÌå";
+	font-size:14px;
+	height: 22px;
+	text-decoration: none;
+	line-height:22px;
+	text-align:center;
+/* 	color:#f48a34; */
+	color:#2d64b3; 
+	}
+.goodd{
+	width: 60px;
+	height: 28px;
+	padding-left: 34px;
+	margin-left:650px;
+/* 	position: absolute;
+	left: 660px;
+	top: 21px; */
+	text-decoration: none;
+	line-height:28px;
+	text-align:center;
+	color:#cecfd4;
+	}
+
+.list .title1{
+	display:block;
+	width:750px;
+	font-size:15px;
+	font-family:"ËÎÌå";
+	font-weight:500;
+color:#2d64b3; 
+/* 	color:#ff6600; */
+	text-decoration:none;
+	word-break:break-all;
+	}
+ .list .title1 img{
+max-width:720px;
+} 
+ .list .title1 *{
+ color:#2d64b3; 
+ display:inline;
+ }
+ .list .title1 br{
+ display:none;
+ } 
+/*.line{
+	width: 2px;
+	height: 24px;
+	background: #fafafa url(images/line2.png) no-repeat;
+	position: absolute;
+	left: 735px;
+	top: 24px;
+	text-decoration: none;
+	}*/
+.bad{
+	font-family:"ËÎÌå";
+	font-size:12px;
+	height: 18px;
+	text-decoration: none;
+	line-height:18px;
+	text-align:center;
+	color:#999999;
+	}
+
+b{
+	color:#181818;
+	font-size:18px;
+	font-family:"Î¢ÈíÑÅºÚ";
+	}
+.bottom{
+	margin:auto;
+	width:1200px;
+	font-family:"ËÎÌå";
+	font-size:12px;
+	color:#c6c7c8;
+	text-align:center;
+	margin-top:10px;
+	margin-bottom:10px;
+	}
+.list1text2{
+	width:580px;
+	height:12px;
+	line-height:12px;
+	font-size:12px;
+	font-family:"ËÎÌå";
+	color:#999999;
+	margin-top:10px;
+	}
+.list1text2{
+	overflow:hidden;
+}
+.list1text2 span{
+	display:block;
+	float:left;
+}
+.list1text2 span a{
+color:#999999;
+}
+.list1text2 span a:hover{
+color:#FF6600;
+}
+.listtext2{
+	width:580px;
+	height:12px;
+	line-height:12px;
+	font-size:12px;
+	font-family:"ËÎÌå";
+	color:#999999;
+	margin-top:5px;
+	margin-bottom:0px;
+	overflow:hidden;
+	}
+.listtext2 span{ 
+display:block;
+float:left;
+}
+.page1:hover{
+color:#f41b34;
+}
+em{
+	color:#cc0000;
+	font-style:normal;
+}
+.topinput {
+	height: 32px;
+}
+*:before, *:after {
+    box-sizing: border-box;
+}
+*:before, *:after {
+    box-sizing: border-box;
+}
+.pagination {
+    border-radius: 4px;
+    display: inline-block;
+    margin: 20px 0;
+    padding-left: 0;
+}
+ul, li {
+    list-style: none outside none;
+    margin: 0;
+    padding: 0;
+}
+ul, ol {
+    margin-bottom: 10px;
+    margin-top: 0;
+}
+* {
+    margin: 0;
+    padding: 0;
+}
+* {
+    box-sizing: border-box;
+}
+.pagination > li {
+    display: inline;
+}
+.pagination > .active > a, .pagination > .active > span, .pagination > .active > a:hover, .pagination > .active > span:hover, .pagination > .active > a:focus, .pagination > .active > span:focus {
+    background-color: #428bca;
+    border-color: #428bca;
+    color: #fff;
+    cursor: default;
+    z-index: 2;
+}
+.pagination > li > a, .pagination > li > span {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    color: #428bca;
+    float: left;
+    line-height: 1.42857;
+    margin-left: -1px;
+    padding: 6px 12px;
+    position: relative;
+    text-decoration: none;
+}
+.nav > li > a {
+    padding: 0px 0px;
+}

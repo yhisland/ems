@@ -1,0 +1,174 @@
+@CHARSET "UTF-8";
+.orderhead tr * {
+	border: 0px;
+	margin: 0px;
+	padding: 0px;
+	line-height:15px;
+}
+
+.orderhead thead tr th {
+	font-weight: bold;
+	margin: 0px;
+	padding: 0px;
+}
+.orderhead tbody tr th {
+	color:#006600;	
+	text-align:right;
+	word-break: keep-all;
+	margin: 0px;
+	padding: 0px;
+}
+.orderhead tbody tr td {	
+	text-align: left;
+	word-break: keep-all;	
+	margin: 0px;
+	padding: 0px;
+}
+
+/***展开页css 开始  **/
+.detailInfo {
+	border:1.5px solid #99FFFF;         
+	border-collapse:collapse;
+}
+.detailInfo tr * {
+	border: 1px solid #EFEFEF;
+}
+.detailInfo thead tr th {
+	font-weight: bold;	
+}
+.detailInfo tbody tr th {
+	color:#006600;
+	text-align:left;
+	border-right:medium none;
+	word-break: keep-all;
+}
+.detailInfo tbody tr td {	
+	text-align: left;
+	word-break: keep-all;	
+}
+
+
+tr.bhead th{
+	font-size: 14px;
+	font-weight: bold;
+	text-align: right;
+}
+.item tr {
+	margin: 10px 10px;
+}
+.item {
+	border:1.5px solid #99FFFF;         
+	border-collapse:collapse;
+}
+.item tr * {
+	font-size: 14px;
+	line-height: 20px;
+	text-align: center;
+	border: 1px solid #ECF1F5;
+}
+
+.item tr th {
+	font-weight: lighter;
+	background-color: #f9fafc;
+}
+.item tr td {
+	text-align: left;
+}
+.item thead tr {
+	font-size: 14px;
+	font-weight: bold;
+	text-align: left;
+    background-color:#EEEEEE;
+}
+.item thead tr th {
+	font-size: 14px;
+	text-align: left;
+}
+.item tfoot tr td {
+	/**text-align: right;**/
+	text-align:justify;
+	margin-right: 10px;
+}
+
+.textsubtr {
+	width: 1px;
+	white-space: nowrap;
+	text-overflow: ellipsis;
+	-o-text-overflow: ellipsis;
+	overflow: hidden;
+}
+/***展开页css 结束  **/
+/** 详细页css 开始*/
+div,form,img,ul,ol,li,th,td,dl,dt,dd,button,input {
+	margin: 0;
+	padding: 0;
+	/* border: 0; */
+}
+
+.container {
+	margin-top: 20px;
+}
+
+.topteam-table {
+	width: 100%;
+	border-collapse: collapse;
+	text-align: center;
+	/* font-size: 14px; */
+}
+
+.topteam-table tr {
+	/* width: 1000px;; */
+}
+
+.topteam-table tr * {
+	border: 1px solid #ECF1F5;
+	margin: 10px 10px;
+	
+}
+.topteam-table tr td{
+	text-align:left;
+	color: #5893B7;
+	min-width: 200px;
+}
+.topteam-table tr th {
+	text-align:right;
+	width:200px;
+	background-color: #f9fafc;
+	font-weight: normal;
+}
+.topteam-table tr td *{
+	margin: 5px 0px;
+	width: 300px;
+}
+/* 显示表单单元格居中*/  
+.topteam-table tr.center *{
+	text-align:center;
+}
+div.panel,p.flip {
+	margin: 0px;
+	padding: 5px;
+	text-align: left;
+	border: solid 1px #c3c3c3;
+	font-size: 18px;
+	/* border-top: none; */
+}
+p.flip {
+	font-weight:bold;
+	background: #f9fafc;
+	border-bottom: none;
+}
+div.panel{
+	border-top: none;
+}
+
+.status{
+	padding-left:15px;
+	color:#3366cc;
+	font-size:12px;
+	font-family:"瀹嬩綋";
+	text-decoration:none;
+}
+.status:hover{
+	text-decoration:none;
+}
+/** 详细页css 结束*/

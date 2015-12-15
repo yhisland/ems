@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
+import com.jfinal.ext.plugin.tablebind.TableBind;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
@@ -23,6 +24,7 @@ import com.manager.util.RegexUtil;
  * 修改备注：        
  *    
  */ 
+//@TableBind(tableName="complain_table",pkName="id")
 public class Complain extends Model<Complain> {
 	private static final long serialVersionUID = 1L;
 	public final static Complain dao = new Complain();
@@ -39,6 +41,7 @@ public class Complain extends Model<Complain> {
 	 * @return List<Maintain>
 	 */
 	public List<Complain> findPageComplainList(int offset,int userType) {
+		System.out.println("Complain进入findPageComplainList**************************************************");
 		List<Complain> complainlist = null;
 		List<String> sqlList = getPaginateSqlByUserType(userType);
 		Page<Complain> pageList = paginate((offset / EmsConfig.pageSize) + 1,
@@ -52,7 +55,8 @@ public class Complain extends Model<Complain> {
 	 * 查找所有
 	 */		
 	public Map<String, Object> selectAll(int page,int pagesize,JSONObject jObject,String sortname,String sortorder){
-		String select="select * ";
+		System.out.println("Complain进入selectAll**************************************************");
+		String select="select *,count(district) as complainSum ";
 
 		String sqlExceptSelect=" from complain_table "
 				 +" where 1 = 1 ";
@@ -96,6 +100,8 @@ public class Complain extends Model<Complain> {
 		}else{
 			sb.append("   order by  creatdate  ");
 		}*/
+		sb.append("   group by  district  ");
+		System.out.println("SQL="+select+sb.toString());
 		Map<String, Object> map = new HashMap<String, Object>();
 		list = Db.paginate(page, pagesize, select, sb.toString());
 		map.put("Rows", list.getList());
@@ -108,8 +114,9 @@ public class Complain extends Model<Complain> {
 	 */		
 	
 	public List<Complain> getList(int page,int pagesize,JSONObject jObject,String sortname,String sortorder){
+		System.out.println("Complain进入getList**************************************************");
 		List<Complain> list = new ArrayList<Complain>();
-		String select="select * "
+		String select="select *,count(district) as complainSum "
 						 /*+"       creatdate," 
 						 +"       round(dsr_qual_score / dsr_qual_comt_cnt, 4) as dsr_qual," 
 						 +"       round(dsr_deli_score / dsr_deli_comt_cnt, 4) as dsr_deli," 
@@ -153,6 +160,8 @@ public class Complain extends Model<Complain> {
 			sb.append(" and shop_head.shop_head_id = '"+shop_head_id+"'" );
 		}		
 		sb.append(" order by creatdate ");*/
+		sb.append("   group by  district  ");
+		System.out.println("SQL="+select+sb.toString());
 		list = Complain.dao.find(select+sb.toString());
 		System.out.println("list="+list);
 		return  list;		
@@ -160,9 +169,12 @@ public class Complain extends Model<Complain> {
 	
 	
 	
-	
-	
+	/**
+	 * 查看投诉信息执行
+	 * 
+	 */	
 	private List<String> getPaginateSqlByUserType(int userType){
+		System.out.println("Complain进入getPaginateSqlByUserType**************************************************");
 		List<String> sqllist = new ArrayList<String>();
 		if(userType==2){
 			sqllist.add("select *");
@@ -182,9 +194,11 @@ public class Complain extends Model<Complain> {
 	 * @return Complain列表
 	 */
 	public List<Complain> findLikeComplainList(String condition) {
+		System.out.println("Complain进入findLikeComplainList**************************************************");
 		List<Complain> complainlist = null;
 		complainlist = find("select * from complain_table where site LIKE '%"
 				+ condition + "%'");
+		System.out.println("findLikeComplainListSLQ = select * from complain_table where site LIKE '%"+ condition + "%'");
 		changeValue(complainlist);
 		return complainlist;
 	}
@@ -195,6 +209,7 @@ public class Complain extends Model<Complain> {
 	 * @return
 	 */
 	public Complain findSignleComplain(int id) {
+		System.out.println("Complain进入findSignleComplain**************************************************");
 		List<Complain> list = new ArrayList<Complain>();
 		list.add(findById(id));
 		changeValue(list);
@@ -207,6 +222,7 @@ public class Complain extends Model<Complain> {
 	 * @return Complain
 	 */
 	public Complain findComplainByNumber(String complainPhone){
+		System.out.println("Complain进入findComplainByNumber**************************************************");
 		return findFirst(Complain.QUERY_COMPLAIN_NUMBER,complainPhone);
 	}
 
@@ -264,6 +280,7 @@ public class Complain extends Model<Complain> {
 	 * @return
 	 */
 	public int getTableCount() {
+		System.out.println("Complain进入getTableCount**************************************************");
 		List<Complain> complainAllList = find(Complain.QUERY_ALL_COMPLAINCOUNT);
 		int num = 0;
 		if (complainAllList != null) {
@@ -278,6 +295,7 @@ public class Complain extends Model<Complain> {
 	 * @return
 	 */
 	public int getTableYuYueCount() {
+		System.out.println("Complain进入getTableYuYueCount**************************************************");
 		List<Complain> list = find("select id from complain_table where currentState = '0'");
 		if (list != null) {
 			return list.size();
@@ -290,6 +308,7 @@ public class Complain extends Model<Complain> {
 	 * 新增投诉信息
 	 */
 	public boolean addComplain() {
+		System.out.println("Complain进入addComplain**************************************************");
 		this.set("currentStatus", 0);
 		this.set("urgencyStatus", 0);
 //		this.set("returnDate", "");
@@ -316,20 +335,61 @@ public class Complain extends Model<Complain> {
 	 * @return boolean
 	 */
 	public boolean addComplainByMany(Map<String, Object> map) {
+		System.out.println("Complain进入addComplainByMany**************************************************");
 		if (map == null) {
 			return false;
 		} else {
-			String equipNumber = map.get("编号").toString();
+//			String userType = map.get("用户品牌").toString();
+//			System.out.println("用户品牌="+userType);
+/*			String equipNumber = map.get("编号").toString();
 			String price = map.get("单价").toString();
 			if(findComplainByNumber(equipNumber)!=null||!RegexUtil.regexPrice(price)){
 				return false;
-			}
+			}*/
 			Complain complain = new Complain();
-			complain.set("equipNumber",equipNumber);
-			complain.set("equipName",map.get("名称"));
+//			complain.set("equipNumber",equipNumber);
+//			complain.set("userType",userType);
+//			complain.set("site",map.get("宽带装机地址"));
+			complain.set("userType",map.get("用户品牌"));
+			complain.set("userCode",map.get("用户资费名称及代码"));
+			complain.set("installCity",map.get("安装区县"));
+			complain.set("userAcceptTime",map.get("用户预约上门时间"));
+//			String serialNum = String.valueOf(map.get("流水号"));
+			complain.set("serialNum",map.get("流水号"));
+//			double serialNum=new Double(map.get("流水号").toString()); 
+//			System.out.println("流水号="+serialNum);
+			complain.set("disposeStatusOne",map.get("解决程度"));
+			complain.set("acceptTime",map.get("受理时间"));
+			complain.set("currentStatus",map.get("工单状态"));
+			complain.set("complainCity",map.get("投诉地市"));
+			complain.set("acceptCity",map.get("受理地市"));
+			complain.set("complainPhone",map.get("受理号码"));
+			complain.set("contactPhone",map.get("联系电话"));
+			complain.set("userName",map.get("用户姓名"));
+			complain.set("userPart",map.get("用户归属局"));
+			complain.set("serviceSort",map.get("服务请求类别"));
+			complain.set("userGrade",map.get("用户级别"));
+			complain.set("urgencyStatus",map.get("紧急程度"));
+			complain.set("jobNum",map.get("受理工号"));
+			complain.set("content",map.get("业务内容"));
+			complain.set("title",map.get("工单标题"));
+			complain.set("acceptManner",map.get("受理方式"));
+			complain.set("acceptWay",map.get("受理渠道"));
+			complain.set("cause",map.get("责任定性"));
+			complain.set("disposeStatus",map.get("解决程度"));
+			complain.set("SPService",map.get("SP服务代码"));
+			complain.set("site",map.get("宽带装机地址"));
+			complain.set("faultSite",map.get("客户故障地址"));
+			complain.set("street",map.get("街道地址"));
+			complain.set("district",map.get("区域"));
+			complain.set("responsible",map.get("区域负责人"));
+			complain.set("worker",map.get("维护员"));
+			complain.set("faultCause",map.get("故障原因"));
+			
+/*			complain.set("equipName",map.get("名称"));
 			complain.set("equipModel",map.get("型号"));
 			complain.set("price",price);
-			complain.set("buyDate",map.get("购买时间"));
+			complain.set("buyDate",map.get("购买时间"));*/
 			return complain.addComplain();
 		}
 	}
@@ -339,6 +399,7 @@ public class Complain extends Model<Complain> {
 	 * @return
 	 */
 	public List<Map<String,Object>> getAllComplainInfo(){
+		System.out.println("Complain进入getAllComplainInfo**************************************************");
 		List<Complain> complainlist = find(Complain.QUERY_ALL_COMPLAININFO);
 		List<Map<String,Object>> list = null;
 		changeValue(complainlist);

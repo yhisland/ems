@@ -68,4 +68,12 @@ public class StaticResourceController extends Controller
     	setAttr("hInfo", "批量添加设备");
     	render("/addAll.jsp");
     }
+    /**
+     * 批量添加投诉信息
+     */
+    public void addManyComplainJsp(){
+    	setAttr("handleUrl", "/complain/addManyComplain");
+    	setAttr("hInfo", "批量添加投诉");
+    	render("/addAll.jsp");
+    }    
 }

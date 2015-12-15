@@ -43,15 +43,18 @@
 				<th><input
 					onClick="if(this.checked==true) { checkAll('test'); } else { clearAll('test'); }"
 					type="checkbox" value="" name="test" title="全选/取消" /></th>
+				<th>流水号</th>
 				<th>受理时间</th>
-				<th>工单状态</th>
 				<th>受理号码</th>
 				<th>联系电话</th>
 				<th>用户姓名</th>
-				<th>紧急程度</th>
-				<th>责任定性</th>
-				<th>解决程度</th>
-				<th>宽带地址</th>
+				<th>业务内容</th>
+				<th>工单标题</th>
+				<th>宽带装机地址</th>
+				<th>区域</th>
+				<th>区域负责人</th>
+				<th>维护员</th>
+				<th>故障原因</th>
 			</tr>
 		</thead>
 		<tbody id="tab">
@@ -59,21 +62,25 @@
 				varStatus="status">
 				<tr>
 					<td><input type="checkbox" value="${complain.id}" name="test" /></td>
+					<td>${complain.serialNum}</td>
 					<td>${complain.acceptTime}</td>
-					<td>${complain.currentStatus}</td>
 					<td>${complain.complainPhone}</td>
 					<td>${complain.contactPhone}</td>
 					<td>${complain.userName}</td>
-					<td>${complain.urgencyStatus}</td>
+					<td>${complain.content}</td>
+					<td>${complain.title}</td>
+					<td>${complain.site}</td>
+					<td>${complain.district}</td>
+					<td>${complain.responsible}</td>
+					<td>${complain.worker}</td>
+					<td>${complain.faultCause}</td>
+					
 <%-- 					<td class="state${status.index}">${complain.currentState}</td> --%>
 <%-- 					<c:if test="${complain.currentState=='预约'}">
 						<script type="text/javascript">
 							$("td.state${status.index}").css("color", "red");
 						</script>
 					</c:if> --%>
-					<td>${complain.cause}</td>
-					<td>${complain.disposeStatus}</td>
-					<td>${complain.site}</td>
 <%-- 					<td><c:if test="${sessionScope.user.get('userType')==0}">
 					&nbsp;&nbsp;<a href="/complain/deleteComplain/${complain.id}"
 								onclick="return window.confirm('您确定要删除?');">删除</a>

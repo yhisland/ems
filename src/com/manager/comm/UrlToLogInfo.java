@@ -27,6 +27,7 @@ public final class UrlToLogInfo {
 	   //设备操作模块
 	   map.put("/device/addDevice", "管理员添加设备");
 	   map.put("/device/addManyDevice", "批量添加设备");
+	   map.put("/complain/addManyComplain", "批量添加投诉");
 	   map.put("/device/exportAllDeviceInfo", "导出设备信息");
 	   map.put("/device/deleteDevice", "管理员删除设备");
 	   map.put("/device/updateDevice", "更新设备信息");
