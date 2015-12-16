@@ -12,7 +12,28 @@ import com.jfinal.core.Controller;
  */
 public class StaticResourceController extends Controller
 {
-	/**
+    /**
+     * 跳转到投诉-区域分析界面
+     */
+    public void showDistrictAnalysisJsp(){
+    	render("/86_district_analysis.html");
+    }
+    
+    /**
+     * 跳转到投诉-时间分析界面
+     */
+    public void showTimeAnalysisJsp(){
+    	render("/86_time_analysis.html");
+    }
+
+    /**
+     * 跳转到投诉-故障原因分析界面
+     */
+    public void showFaultCauseAnalysisJsp(){
+    	render("/86_fault_cause_analysis.html");
+    }    
+    
+    /**
 	 * 跳转到登录页
 	 */
     public void index()
@@ -31,8 +52,7 @@ public class StaticResourceController extends Controller
      * 跳转到展示用户信息界面
      */
     public void showinfoJsp(){
-    	render("/86_analysis.html");
-//    	render("/showinfo.jsp");    	
+    	render("/showinfo.jsp");    	
     }
     
     /**
