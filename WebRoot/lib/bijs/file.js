@@ -1,4 +1,4 @@
-/*//导出数据
+//导出数据
 function exportData(isall) {
 	if (grid.data.Total == 0 || grid.data.Total == null) {
 		$.ligerDialog.success('温馨提示：当前没有数据导出!');
@@ -15,9 +15,9 @@ function exportData(isall) {
 		$("#inputexportpagesize").val(grid.data.Total);
 	}
 	$("#exportdata").submit();
-}*/
+}
 // 工具条图标
-/*function down() {
+function down() {
 	$("#toptoolbar").ligerToolBar({
 		items : [ {
 			text : '导出Excel',
@@ -42,7 +42,7 @@ function exportData(isall) {
 			icon : 'excel'
 		} ]
 	});
-}*/
+}
 // 获取月份
 function f_showMonth() 
 { 

@@ -382,6 +382,7 @@ public class Complain extends Model<Complain> {
 			complain.set("faultSite",map.get("客户故障地址"));
 			complain.set("street",map.get("街道地址"));
 			complain.set("district",map.get("区域"));
+			complain.set("community", map.get("小区"));
 			complain.set("responsible",map.get("区域负责人"));
 			complain.set("worker",map.get("维护员"));
 			complain.set("faultCause",map.get("故障原因"));

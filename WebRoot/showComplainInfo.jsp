@@ -52,6 +52,7 @@
 				<th>工单标题</th>
 				<th>宽带装机地址</th>
 				<th>区域</th>
+				<th>小区</th>
 				<th>区域负责人</th>
 				<th>维护员</th>
 				<th>故障原因</th>
@@ -71,6 +72,7 @@
 					<td>${complain.title}</td>
 					<td>${complain.site}</td>
 					<td>${complain.district}</td>
+					<td>${complain.community}</td>
 					<td>${complain.responsible}</td>
 					<td>${complain.worker}</td>
 					<td>${complain.faultCause}</td>
