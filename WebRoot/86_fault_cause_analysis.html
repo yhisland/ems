@@ -4,14 +4,16 @@
     <title>10086投诉-故障原因分析</title>
 
 
-<link href="lib/ligerUI/skins/Aqua/css/ligerui-all.css" rel="stylesheet" type="text/css" />    
+<!-- <link href="lib/ligerUI/skins/Aqua/css/ligerui-all.css" rel="stylesheet" type="text/css" />    
 <link href="lib/ligerUI/skins/ligerui-icons.css"rel="stylesheet" type="text/css" />
-<script src="lib/ligerUI/js/ligerui.min.js" type="text/javascript"></script>
+<script src="lib/ligerUI/js/ligerui.min.js" type="text/javascript"></script> -->
     <script src="lib/jquery/jquery-1.4.4.min.js" type="text/javascript"></script>
     <script src="lib/echarts/echarts.js"></script>
-<script src="lib/topteam.js"></script>
+<!-- <script src="lib/topteam.js"></script>
 <script src="lib/bijs/file.js" type="text/javascript"></script>
 <script src="lib/js/esl.js"></script>
+ -->
+<script src="lib/ligerUI/js/ligerui.min.js" type="text/javascript"></script>
     
 </head>
 <body>
@@ -33,11 +35,15 @@
 		var data2=[/* 5, 2, 4, 10, 16, 9 */];
 		var data3=[7, 3, 2, 12, 8, 12];
 		var data4=[8, 3, 10, 12, 6, 5];
-  	  
+		var string = '{"birthday":"1978-1-1"}';
+//		var json = JSON.parse(string);alert(json.name);
+// var json = eval("("+string+")");alert(json.age); 
+ 
+ alert(liger.toJSON(string));	  
 		$.ajax({
 				type:'post',
 				url:'/complain/getList',
-				data:'where= '+ data4/* liger.toJSON(sData) */,
+				data:'where= '+ liger.toJSON(string)/* liger.toJSON(sData) */,
 				async:false,
 				success:function(data){ 
 				var list = eval(data);

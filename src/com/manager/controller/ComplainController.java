@@ -71,7 +71,9 @@ public class ComplainController extends Controller{
 		System.out.println("进入getList**************************************************");
 		String str="{}";
 		JSONObject obj = new JSONObject();
+		System.out.println("obj***="+obj);
 	    obj=JSONObject.parseObject(getPara("where",str));
+	    System.out.println("obj="+obj);
 		int page=getParaToInt("page",1);
 		int pagesize=getParaToInt("pagesize",20);
 		String sortname = getPara("sortname");
