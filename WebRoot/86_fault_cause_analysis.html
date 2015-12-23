@@ -25,11 +25,12 @@
 //$(function(){     
  		var shop_name=null;
  		var sData ={};
+ 		//时间
  		var dt = new Date();
-var iYear = dt.getFullYear();
-var iMonth = ("0"+ (dt.getMonth() +1)).slice(-2);
-var iDate = ("0"+ dt.getDate()).slice(-2);
-document.write(dt);
+		var iYear = dt.getFullYear();
+		var iMonth = ("0"+ (dt.getMonth() +1)).slice(-2);
+		var iDate = ("0"+ dt.getDate()).slice(-2);
+		document.write(iYear+"年"+iMonth+"月"+iDate+"日");
 
 /*  		var type='w';
  		'${type}'
@@ -41,8 +42,10 @@ document.write(dt);
 		var data2=[/* 5, 2, 4, 10, 16, 9 */];
 		var data3=[7, 3, 2, 12, 8, 12];
 		var data4=[8, 3, 10, 12, 6, 5];
-		var string = '{"mark":"fault"}';
-//		var json = JSON.parse(string);alert(json.name);
+		var mark = {"mark":"fault"};
+//		alert(typeof(mark));
+
+//		var json = JSON.parse(mark);//alert(typeof(json)+json.name);
 // var json = eval("("+string+")");alert(json.age); 
 //		var json = liger.toJSON(string);
 //		alert(json);
@@ -51,7 +54,7 @@ document.write(dt);
 		$.ajax({
 				type:'post',
 				url:'/complain/getList',
-				data:'where= '+ liger.toJSON(string)/* liger.toJSON(sData) */,
+				data:'where= '+liger.toJSON(mark),//mark页面类型标记
 				async:false,
 				success:function(data){ 
 				var list = eval(data);

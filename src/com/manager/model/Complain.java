@@ -6,13 +6,12 @@ import java.util.List;
 import java.util.Map;
 
 import com.alibaba.fastjson.JSONObject;
-import com.jfinal.ext.plugin.tablebind.TableBind;
+import com.jfinal.kit.StringKit;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Model;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.plugin.activerecord.Record;
 import com.manager.config.EmsConfig;
-import com.manager.util.RegexUtil;
 
 /**   
  * 文件名：Complain.java 
@@ -116,51 +115,71 @@ public class Complain extends Model<Complain> {
 	public List<Complain> getList(int page,int pagesize,JSONObject jObject,String sortname,String sortorder){
 		System.out.println("Complain进入getList**************************************************");
 		List<Complain> list = new ArrayList<Complain>();
-		String select="select *,count(district) as complainSum "
-						 /*+"       creatdate," 
-						 +"       round(dsr_qual_score / dsr_qual_comt_cnt, 4) as dsr_qual," 
-						 +"       round(dsr_deli_score / dsr_deli_comt_cnt, 4) as dsr_deli," 
-						 +"       round(dsr_serv_score / dsr_serv_comt_cnt, 4) as dsr_serv," 
-						 +"       round(dsr_logi_score / dsr_logi_comt_cnt, 4) as dsr_logi "*/;
+		System.out.println("jObject.getString()="+jObject.getString("mark"));
+		String select="";
+		String sqlExceptSelect="";
+		StringBuffer sb=new StringBuffer();
+		//判断需显示页面类型
+		if (StringKit.notBlank(jObject.getString("mark"))) {
+			String mark= jObject.getString("mark");
+			System.out.println("mark="+mark);
+			if ("fault".equals(mark)) {
 		
-		String sqlExceptSelect=" from complain_table "
+				select="select *,count(district) as complainSum "
+								 /*+"       creatdate," 
+								 +"       round(dsr_qual_score / dsr_qual_comt_cnt, 4) as dsr_qual," 
+								 +"       round(dsr_deli_score / dsr_deli_comt_cnt, 4) as dsr_deli," 
+								 +"       round(dsr_serv_score / dsr_serv_comt_cnt, 4) as dsr_serv," 
+								 +"       round(dsr_logi_score / dsr_logi_comt_cnt, 4) as dsr_logi "*/
+						;
+				
+				sqlExceptSelect=" from complain_table "
+								 +" where 1 = 1 ";
+		
+		//		StringBuffer sb=new StringBuffer();
+				sb.append(sqlExceptSelect);
+		/*		//查找
+				//按周或月
+				if (StringKit.notBlank(jObject.getString("DATE"))) {
+					if (jObject.getString("DATE").length()<=7) {
+						String date3   = jObject.getString("DATE");
+						sb.append("  and  substr(to_char(creatdate,'yyyy-mm-dd'),1,7) = '"+date3+"' ");
+					}else if(jObject.getString("DATE").length()>10) {
+						String date   = jObject.getString("DATE").substring(0,10);
+						String date2  =jObject.getString("DATE").substring(11,21); 
+						sb.append("  and  to_char(creatdate,'yyyy-mm-dd') <= '"+date2+"' ");
+						sb.append("  and  to_char(creatdate,'yyyy-mm-dd') >= '"+date+"' ");
+					}
+				}		
+				//自定义时间查询
+				//开始时间
+				if (StringKit.notBlank(jObject.getString("DATE1"))) {
+					String DATE1= jObject.getString("DATE1");
+					DATE1=DATE1.substring(0,10);
+					sb.append(" and to_char(creatdate,'yyyy-mm-dd') >='"+DATE1+"' ");
+				}
+				//结束时间
+				if (StringKit.notBlank(jObject.getString("DATE2"))) {
+					String DATE2= jObject.getString("DATE2");
+					DATE2=DATE2.substring(0,10);
+					sb.append(" and to_char(creatdate,'yyyy-mm-dd') <='"+DATE2+"' ");
+				}				
+				//店铺
+				if (StringKit.notBlank(jObject.getString("SHOP_HEAD_ID"))) {
+					String shop_head_id= jObject.getString("SHOP_HEAD_ID");
+					sb.append(" and shop_head.shop_head_id = '"+shop_head_id+"'" );
+				}		
+				sb.append(" order by creatdate ");*/
+				sb.append("   group by  district  ");
+					}
+		//			System.out.println("mark="+mark);
+					//			sb.append(" and shop_head.shop_head_id = '"+shop_head_id+"'" );
+			if ("district".equals(mark)) {
+				select="select *,count(district) as complainSum ";
+				sqlExceptSelect=" from complain_table "
 						 +" where 1 = 1 ";
-
-		StringBuffer  sb=new StringBuffer();
-		sb.append(sqlExceptSelect);
-/*		//查找
-		//按周或月
-		if (StringKit.notBlank(jObject.getString("DATE"))) {
-			if (jObject.getString("DATE").length()<=7) {
-				String date3   = jObject.getString("DATE");
-				sb.append("  and  substr(to_char(creatdate,'yyyy-mm-dd'),1,7) = '"+date3+"' ");
-			}else if(jObject.getString("DATE").length()>10) {
-				String date   = jObject.getString("DATE").substring(0,10);
-				String date2  =jObject.getString("DATE").substring(11,21); 
-				sb.append("  and  to_char(creatdate,'yyyy-mm-dd') <= '"+date2+"' ");
-				sb.append("  and  to_char(creatdate,'yyyy-mm-dd') >= '"+date+"' ");
 			}
 		}		
-		//自定义时间查询
-		//开始时间
-		if (StringKit.notBlank(jObject.getString("DATE1"))) {
-			String DATE1= jObject.getString("DATE1");
-			DATE1=DATE1.substring(0,10);
-			sb.append(" and to_char(creatdate,'yyyy-mm-dd') >='"+DATE1+"' ");
-		}
-		//结束时间
-		if (StringKit.notBlank(jObject.getString("DATE2"))) {
-			String DATE2= jObject.getString("DATE2");
-			DATE2=DATE2.substring(0,10);
-			sb.append(" and to_char(creatdate,'yyyy-mm-dd') <='"+DATE2+"' ");
-		}				
-		//店铺
-		if (StringKit.notBlank(jObject.getString("SHOP_HEAD_ID"))) {
-			String shop_head_id= jObject.getString("SHOP_HEAD_ID");
-			sb.append(" and shop_head.shop_head_id = '"+shop_head_id+"'" );
-		}		
-		sb.append(" order by creatdate ");*/
-		sb.append("   group by  district  ");
 		System.out.println("SQL="+select+sb.toString());
 		list = Complain.dao.find(select+sb.toString());
 		System.out.println("list="+list);

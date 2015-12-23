@@ -73,11 +73,12 @@ public class ComplainController extends Controller{
 	public void getList(){
 		System.out.println("进入getList**************************************************");
 		String str="{}";
-		String wh = getPara("where",str);
+//		String wh = getPara("where",str);
 		JSONObject obj = new JSONObject();
+//		System.out.println("wh="+wh);
 //		JSONObject jobj=JSON.parseObject(getPara("where",str));
-		System.out.println("where="+getPara("where",str));
 	    obj=JSONObject.parseObject(getPara("where",str));
+//		obj=JSONObject.parseObject(wh);
 	    System.out.println("obj="+obj);
 		int page=getParaToInt("page",1);
 		int pagesize=getParaToInt("pagesize",20);
