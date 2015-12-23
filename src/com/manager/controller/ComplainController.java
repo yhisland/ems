@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.jfinal.aop.Before;
 import com.jfinal.core.Controller;
@@ -18,6 +19,8 @@ import com.manager.interceptor.LogInterceptor;
 import com.manager.model.Complain;
 import com.manager.model.User;
 import com.manager.util.ExcelUtil;
+
+  
 
 /**   
  * 文件名：ComplainController.java 
@@ -70,8 +73,10 @@ public class ComplainController extends Controller{
 	public void getList(){
 		System.out.println("进入getList**************************************************");
 		String str="{}";
+		String wh = getPara("where",str);
 		JSONObject obj = new JSONObject();
-		System.out.println("obj***="+obj);
+//		JSONObject jobj=JSON.parseObject(getPara("where",str));
+		System.out.println("where="+getPara("where",str));
 	    obj=JSONObject.parseObject(getPara("where",str));
 	    System.out.println("obj="+obj);
 		int page=getParaToInt("page",1);
