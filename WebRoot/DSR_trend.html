@@ -1,0 +1,513 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>DSR趋势图分析</title>
+<link href="lib/ligerUI/skins/Aqua/css/ligerui-all.css" rel="stylesheet" type="text/css" />
+<link href="lib/ligerUI/skins/Gray/css/all.css" rel="stylesheet" type="text/css" />
+<link href="lib/css/common.css" rel="stylesheet" type="text/css" />
+<link href="lib/css/customers.css" rel="stylesheet" type="text/css" />
+<link href="lib/ligerUI/skins/ligerui-icons.css"rel="stylesheet" type="text/css" />
+<script src="lib/jquery/jquery-1.5.2.min.js" type="text/javascript"></script>
+<script src="lib/js/common.js" type="text/javascript"></script>
+<script src="lib/js/LG.js" type="text/javascript"></script>
+<script src="lib/jquery-validation/jquery.validate.min.js" type="text/javascript"></script>
+<script src="lib/jquery-validation/jquery.metadata.js" type="text/javascript"></script>
+<script src="lib/jquery-validation/messages_cn.js" type="text/javascript"></script>
+<script src="lib/ligerUI/js/ligerui.min.js" type="text/javascript"></script>
+<script src="lib/json2.js" type="text/javascript"></script>
+<script src="lib/ligerUI/js/plugins/ligerFilter.js" type="text/javascript"></script>
+<script src="lib/topteam.js"></script>
+<script src="lib/bijs/file.js" type="text/javascript"></script>
+<script src="lib/js/esl.js"></script>
+</head>
+<body style="padding:0px;height:100%; text-align:center;">
+<input type="hidden" id="MenuNo" value="WMS011" />
+<div id="mainsearch" style=" width:99.9%;max-height:520px;">
+	<div class="searchtitle"> <span>搜索</span><img src="lib/icons/32X32/searchtool.gif" />
+		<div class="togglebtn"></div>
+	</div>
+	<div class="navline" style="margin-bottom:4px; margin-top:4px;"></div>
+	<div class="searchbox">
+		<form id="formsearch" class="l-form"></form>	
+	</div>		
+<div id="maingrid" ></div>
+</div>
+<div id="main1" style="height:310px;width:1200px;margin:auto;top:10px;"></div>
+<div id="main2" style="height:310px;width:1200px;margin:auto;top:10px;"></div>
+<div id="main3" style="height:310px;width:1200px;margin:auto;top:10px;"></div>
+<div id="main4" style="height:310px;width:1200px;margin:auto;top:10px;"></div>
+ <script type="text/javascript">
+      var grid=null;
+      var sData ={};    
+      var date1=getDateTime(-7);
+	  var date2=getDateTime(0); 
+      var sDate1 =date1;
+      var sDate2 =date2;       
+      var  weekly = getWeekFromToday1();
+      function radioYear(data){
+      	if(data==2){
+      		//按月份显示
+      		$.ligerui.get("DATE").setData(getYearFromToday1());
+      	}else if(data==1){
+      		//按周显示
+      		$.ligerui.get("DATE").setData(getWeekFromToday1());
+      	}
+      }      
+$(function() {
+      //列表结构 
+       grid = $("#maingrid").ligerGrid({ 
+       columns: [
+       		  {display:"店铺名称",name:"complainSum",width:200,align: "center"},
+       		  {display:"时间",name:"district",width:200,align: "center"},	
+       		  {display:"宝贝描述",name:"DSR_QUAL",width:200,align: "center"},	
+       		  {display:"发货速度",name:"DSR_DELI",width:200,align: "center"},	
+			  {display:"商家服务",name:"DSR_SERV",width:200,align: "center"},	
+			  {display:"物流速度",name:"DSR_LOGI",width:200,align: "center"}
+		  ],
+		  dataAction: 'server', 
+		  pageSize: 30, 
+          url: '/complain/getList',
+          width: '99.9%',  
+		  height:217,
+		  rownumbers:true,
+		  alternatingRow:true,
+		  delayLoad :true,
+		  checkbox: false
+      });
+//      f_Search();
+	});
+	//表单查询的按钮事件
+  function f_Search(){
+	  sData = s.getData();	
+	  if(sData.SHOP_HEAD_ID != ""){
+	  sData.DATE1=null;
+	  sData.DATE2=null;
+	  grid.setOptions({newPage:1});
+	  grid.set('parms', {where : liger.toJSON(sData)});
+	  grid.loadData();
+	  f_seriesObj();
+	  }else
+	  alert("店铺不能为空！");
+}  
+//自定义时间查询的按钮事件
+  function f_Search2(){
+	  sData = s.getData();	
+	  if(sData.SHOP_HEAD_ID != ""){ 
+	  sData.DATE=null;
+	  if(sData.DATE1 != null) {
+	  sData.DATE1 = getFormatDate(sData.DATE1);
+	  sDate1=sData.DATE1;
+	  }else {
+	  sDate1=getFormatDate(date1);
+	  sData.DATE1=sDate1; 
+	  }
+	  if(sData.DATE2 != null) {
+	  sData.DATE2 = getFormatDate(sData.DATE2);	 
+	  sDate2=sData.DATE2;
+	  }else {
+	  sDate2=getFormatDate(date2);
+	  sData.DATE2=sDate2;
+	  } 
+	  grid.setOptions({newPage:1});
+	  grid.set('parms', {where : liger.toJSON(sData)});
+	  grid.loadData();
+	  f_seriesObj();
+	  }else
+	  alert("店铺不能为空！");	  
+}  
+      //搜索表单应用ligerui样式
+      var  s =  $("#formsearch").ligerForm({
+      space : 20,
+       rightToken :'',
+		   fields:[
+					{display: "&nbsp;&nbsp;&nbsp;&nbsp;店铺名称：",
+		                name: "SHOP_HEAD_ID",
+		                newline: false,
+		                type: "combobox",
+		                labelWidth : 100,
+		                attr: {
+		                    placeholder: "店铺名称"
+		                },
+		                options: {
+		                    valueField: 'SHOP_HEAD_ID',
+		                    textField: 'SHOP_NAME',
+		                    slide: false,
+		                    selectBoxWidth: 260,
+		                    selectBoxHeight: 300,
+		                    grid: shopGridOptions(true),
+		                    hideGridOnLoseFocus: true,
+		                    condition: {
+		                        space: 1,
+		                        labelWidth: 0,
+		                        fields: [{
+		                            name: "shop_name",
+		                            label: "店铺",
+		                            width: 150,
+		                            type: 'text'
+		                        }]
+		                    }
+		                }
+		            }, 		   
+		 		  { display: "周报：<input type='radio'  value='1' name='date' onclick='radioYear(this.value);' checked />", name:"radio",newline: false,type: "text", width : 0.01,labelWidth: 55}, 
+				  { display: "月报：<input type='radio'  value='2' name='date' onclick='radioYear(this.value);' />", name:"radio",newline: false,type: "text", width : 0.01, labelWidth: 55}, 
+				  { display: "", name:"DATE",newline: false, type: "select", width :210,labelWidth:1,
+				    options: {
+   				 	 	data: weekly, 
+   				 	 	value:weekly[1].text,
+   				 		valueField:'value',
+   				 		textField:'text'
+   				  } },						
+				   { display:"<input type='button' value='默认查询' class='l-button' onClick='javascript:f_Search();'/>", 
+					name: "searchButton",
+					labelWidth : 150, 
+					newline: false, 
+					type: "text" , 
+					width : 0.01
+				},
+				   {display: "自定义初始时间：", name: "DATE1", newline:true, type: "date", cssClass: "field", 
+				   attr: {placeholder:"默认7天前时间",op: "lessorequal",vt:"date"} ,labelWidth : 100, 
+						options : {
+						showTime: true,
+						format:"yyyy-MM-dd" 
+						}
+				   },
+				   {display: "&nbsp;&nbsp;到",  name :"DATE2" , newline:false, type: "date", cssClass: "field", 
+				   attr: {placeholder:"默认当前时间", op: "lessorequal", vt:"date"},labelWidth : 40,
+					    options : {
+						showTime: true,
+						format:"yyyy-MM-dd" 
+						},space : 161
+					},
+				   {display:"<input type='button' value='自定义时间查询' class='l-button' style=' width:100px;' onClick='javascript:f_Search2();'/>", 
+					name: "searchButton",
+					labelWidth : 150, 
+					newline: false, 
+					type: "text" , 
+					width : 0.01
+				}		
+		   ],
+		   toJSON: JSON2.stringify
+	  });
+	  
+	//店铺查询        
+        function shopGridOptions(checkbox) {
+                var options = {
+                    columns: [{
+                        display: "主键",
+                        name: "SHOP_HEAD_ID",
+                        align: 'left',
+                        hide: 1
+                    }, {
+                        display: "店铺",
+                        name: "SHOP_NAME",
+                        width: 150,
+                        align : 'left'
+                    }],
+                    url: "/dsr_trend/getShopSearch",
+                    pageSize: 20,
+                    pageSizeOptions : [ 20, 30, 40, 50 ],
+                    width: '98%',
+                    height: '98%',
+                    checkbox: false,
+                    rownumbers: true
+                };
+                return options;
+            }
+            	  
+//从当天开始，得到前20周的周范围
+function getWeekFromToday1() {
+	var result = [];
+	var d = new Date();
+	var day = d.getDay();
+	var n = 1000 * 60 * 60 * 24;
+	for ( var i = 0; i < 20; i++) {
+		var weekNum = getWeek(d.getYear(), d.getMonth(), d.getDate());
+		if(day == 0){
+			day = 7;
+		}
+		var first = new Date(d.getTime() - (day - 1) * n);
+		var last =  new Date(d.getTime() + (7 - day) * n);
+		d = new Date(first.getTime() - 3 * n);
+		day = d.getDay();
+		var data = first.format("yyyy-MM-dd") + "到"+ last.format("yyyy-MM-dd") + "第" + weekNum + "周"
+		result.push({text:data,value:data});
+		//document.write(first.format("yyyy/MM/dd") + "-"
+		//		+ last.format("yyyy/MM/dd") + "第" + weekNum + "周<br>");
+	}
+	return result;
+}
+
+//从当月开始得到前12个月 
+function getYearFromToday1() {
+	var result = [];
+	var day = new Date();
+	var month = day.getMonth();
+	var year = day.getFullYear();
+	for ( var i = 0; i < 12; i++) {
+		var date = new Date();
+		date.setFullYear(year);
+		date.setMonth(month);
+		var data = date.format("yyyy-MM");
+		result.push({text:data,value:data});
+		if (month > 0) {
+			month = month - 1;
+		} else {
+			year = year - 1;
+			month = 11;
+		}
+	}
+	return result;
+}	
+
+	//图形
+ 	function f_seriesObj(){		
+ 		  var shop_name=null;
+		  var data1=[];
+	  	  var data2=[];
+	  	  var data3=[];
+	  	  var data4=[];
+	  	  var data5=[];
+	  	  
+		$.ajax({
+				type:'post',
+				url:'/dsr_trend/getList',
+				data:'where='+liger.toJSON(sData),
+				async:false,
+				success:function(data){ 
+				var list = eval(data);
+				shop_name=list[0].SHOP_NAME;
+				$.each(list,function(n,value){
+				data1.push( list[n].CREATDATE );
+				data2.push( list[n].DSR_QUAL );
+				data3.push( list[n].DSR_DELI );
+				data4.push( list[n].DSR_SERV );
+				data5.push( list[n].DSR_LOGI );
+							  });
+      	        	}
+	}); 
+		
+        require.config({
+            paths:{ 
+                'echarts' : './lib/js/echarts',
+                'echarts/chart/bar' : './lib/js/echarts',
+                'echarts/chart/line' : './lib/js/echarts'
+            }
+        });
+   
+		require([ 
+					'echarts', 
+					'echarts/chart/bar', 
+					'echarts/chart/line'
+		], 
+		function(ec) {
+			var myChart = ec.init(document.getElementById('main1'));
+			var myChart2 = ec.init(document.getElementById('main2'));
+			var myChart3 = ec.init(document.getElementById('main3'));
+			var myChart4 = ec.init(document.getElementById('main4'));
+			var option = {
+				title : {
+					text : '宝贝与描述相符DSR'
+				},
+				toolbox : {
+					show : true,
+					feature : {
+							            mark : {show: true},
+							            dataZoom : {show: true},
+							            magicType : {show: true, type:['line', 'bar']},
+							            restore : {show: true},
+							            saveAsImage : {show: true}
+							  }
+				},							  
+				tooltip : {
+				 	trigger: 'axis',
+					show : true
+				},
+				legend : {
+					data : [ '宝贝描述' ], 
+					selected : {
+					},
+				},
+				xAxis : [ {
+					type : 'category',
+					boundaryGap : false,
+					data : data1
+				} ],
+				yAxis : [ {
+					type : 'value',
+				scale:true,
+				precision:4,
+		//		max:4.998,
+				boundaryGap:[0.003,0.003]
+				}],
+				series : [ {
+					"name" : "宝贝描述",
+					"type" : "line",  
+					"data" : data2,
+					smooth:true,
+					itemStyle: {
+    					normal: {
+        		//		color:'#0066CC',
+        				lineStyle :{
+        				width:'3'
+        				}
+    				}
+    			}
+				}]
+			};
+				
+			var option2 = {
+				title : {
+					text : '发货速度DSR'
+				},
+				toolbox : {
+					show : true,
+				feature : {
+						            mark : {show: true},
+						            dataZoom : {show: true},
+						            magicType : {show: true, type:['line', 'bar']},
+						            restore : {show: true},
+						            saveAsImage : {show: true}
+						        }
+				},
+				tooltip : {
+				 	trigger: 'axis',
+					show : true
+				},
+				legend : {
+					data : [ '发货速度' ], 
+					selected : {
+					},
+				},
+				xAxis : [ {
+					type : 'category',
+					boundaryGap : false,
+					data : data1
+				} ],
+				yAxis : [ {
+					type : 'value',
+				scale:true,
+				precision:4,
+				boundaryGap:[0.003,0.003]
+				}],
+				series : [ {
+					"name" : "发货速度",
+					"type" : "line",  
+					"data" : data3,
+					smooth:true,
+					itemStyle: {
+    					normal: {
+        	//			color:'#0066CC',
+        				lineStyle :{
+        				width:'3'
+        				}
+    				}
+    			}					
+				}]
+			};
+			var option3 = {
+				title : {
+					text : '商家服务DSR'
+				},
+				toolbox : {
+					show : true,
+				feature : {
+						            mark : {show: true},
+						            dataZoom : {show: true},
+						            magicType : {show: true, type:['line', 'bar']},
+						            restore : {show: true},
+						            saveAsImage : {show: true}
+						        }
+				},
+				tooltip : {
+				 	trigger: 'axis',
+					show : true
+				},
+				legend : {
+					data : [ '商家服务' ], 
+					selected : {
+					},
+				},
+				xAxis : [ {
+					type : 'category',
+					boundaryGap : false,
+					data : data1
+				} ],
+				yAxis : [ {
+					type : 'value',
+				scale:true,
+				precision:4,
+				boundaryGap:[0.003,0.003]
+				}],
+				series : [ {
+					"name" : "商家服务",
+					"type" : "line",  
+					"data" : data4,
+					smooth:true,
+					itemStyle: {
+    					normal: {
+        	//			color:'#0066CC',
+        				lineStyle :{
+        				width:'3'
+        				}
+    				}
+    			}
+				}]
+			};
+			var option4 = {
+				title : {
+					text : '物流速度DSR'
+				},
+				toolbox : {
+					show : true,
+				feature : {
+						            mark : {show: true},
+						            dataZoom : {show: true},
+						            magicType : {show: true, type:['line', 'bar']},
+						            restore : {show: true},
+						            saveAsImage : {show: true}
+						        }
+				},
+				tooltip : {
+				 	trigger: 'axis',
+					show : true
+				},
+				legend : {
+					data : [ '物流速度' ], 
+					selected : {
+					},
+				},
+				xAxis : [ {
+					type : 'category',
+					boundaryGap : false,
+					data : data1
+				} ],
+				yAxis : [ {
+					type : 'value',
+				scale:true,
+				precision:4,
+				boundaryGap:[0.003,0.003]
+				}],
+				series : [ {
+					"name" : "物流速度",
+					"type" : "line",  
+					"data" : data5,
+					smooth:true,
+					itemStyle: {
+    					normal: {
+        	//			color:'#0066CC',
+        				lineStyle :{
+        				width:'3'
+        				}
+    				}
+    			}
+				}]
+			};						
+				myChart.setOption(option);
+				myChart2.setOption(option2);
+				myChart3.setOption(option3);
+				myChart4.setOption(option4);
+			});	
+		} 
+</script> 
+</body>
+</html>

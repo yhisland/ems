@@ -56,6 +56,7 @@
 				<th>区域负责人</th>
 				<th>维护员</th>
 				<th>故障原因</th>
+				<th>故障详细</th>
 			</tr>
 		</thead>
 		<tbody id="tab">
@@ -76,6 +77,7 @@
 					<td>${complain.responsible}</td>
 					<td>${complain.worker}</td>
 					<td>${complain.faultCause}</td>
+					<td>${complain.faultDetail}</td>
 					
 <%-- 					<td class="state${status.index}">${complain.currentState}</td> --%>
 <%-- 					<c:if test="${complain.currentState=='预约'}">

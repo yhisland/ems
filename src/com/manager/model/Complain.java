@@ -125,7 +125,7 @@ public class Complain extends Model<Complain> {
 			System.out.println("mark="+mark);
 			if ("fault".equals(mark)) {
 		
-				select="select *,count(district) as complainSum "
+				select="select faultCause,count(faultCause) as complainSum "
 								 /*+"       creatdate," 
 								 +"       round(dsr_qual_score / dsr_qual_comt_cnt, 4) as dsr_qual," 
 								 +"       round(dsr_deli_score / dsr_deli_comt_cnt, 4) as dsr_deli," 
@@ -170,14 +170,23 @@ public class Complain extends Model<Complain> {
 					sb.append(" and shop_head.shop_head_id = '"+shop_head_id+"'" );
 				}		
 				sb.append(" order by creatdate ");*/
-				sb.append("   group by  district  ");
+				sb.append("   group by  faultCause  ");
 					}
 		//			System.out.println("mark="+mark);
 					//			sb.append(" and shop_head.shop_head_id = '"+shop_head_id+"'" );
-			if ("district".equals(mark)) {
-				select="select *,count(district) as complainSum ";
+			else if ("time".equals(mark)) {
+				select="select date_format(acceptTime,'%Y-%m-%d') acceptTime,count(acceptTime) as complainSum ";
 				sqlExceptSelect=" from complain_table "
 						 +" where 1 = 1 ";
+				sb.append(sqlExceptSelect);
+				sb.append("   group by  acceptTime  ");
+			}
+			else {
+				select="select district,count(district) as complainSum ";
+				sqlExceptSelect=" from complain_table "
+						 +" where 1 = 1 ";
+				sb.append(sqlExceptSelect);
+				sb.append("   group by  district  ");
 			}
 		}		
 		System.out.println("SQL="+select+sb.toString());
@@ -405,6 +414,7 @@ public class Complain extends Model<Complain> {
 			complain.set("responsible",map.get("区域负责人"));
 			complain.set("worker",map.get("维护员"));
 			complain.set("faultCause",map.get("故障原因"));
+			complain.set("faultDetail",map.get("故障详情"));
 			
 /*			complain.set("equipName",map.get("名称"));
 			complain.set("equipModel",map.get("型号"));

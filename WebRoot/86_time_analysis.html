@@ -5,6 +5,7 @@
     
     <script src="lib/jquery/jquery-1.4.4.min.js" type="text/javascript"></script>
     <script src="lib/echarts/echarts.js"></script>
+<script src="lib/ligerUI/js/ligerui.min.js" type="text/javascript"></script>        
 </head>
 <body>
     <div id="main1" style="height:310px;width:1000px;margin:auto;top:10px;"></div>
@@ -25,17 +26,18 @@
 		var data1=[/* "衬衫","羊毛衫","雪纺衫","裤子","高跟鞋","袜子" */];
 		var data2=[/* 5, 2, 4, 10, 16, 9 */];
 		var data3=[7, 3, 2, 12, 8, 12];
+		var mark = {"mark":"time"};
   	  
 		$.ajax({
 				type:'post',
 				url:'/complain/getList',
-				data:'where= '/* +liger.toJSON(sData) */,
+				data:'where= '+liger.toJSON(mark),
 				async:false,
 				success:function(data){ 
 				var list = eval(data);
 			//	shop_name=list[0].SITE;
 				$.each(list,function(n,value){
-				data1.push( list[n].district );
+				data1.push( list[n].acceptTime );
  				data2.push( list[n].complainSum );
 // 				alert("data1="+data1+"data2="+data2)
 							  });

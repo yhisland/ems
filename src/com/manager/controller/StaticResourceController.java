@@ -31,6 +31,13 @@ public class StaticResourceController extends Controller
      */
     public void showFaultCauseAnalysisJsp(){
     	render("/86_fault_cause_analysis.html");
+    }  
+    
+    /**
+     * 跳转到投诉-表格测试界面
+     */
+    public void showTest(){
+    	render("/DSR_trend.html");
     }    
     
     /**
