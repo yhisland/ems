@@ -64,7 +64,7 @@
 				varStatus="status">
 				<tr>
 					<td><input type="checkbox" value="${complain.id}" name="test" /></td>
-					<td>${complain.serialNum}</td>
+					<td>${complain.jobType}</td>
 					<td>${complain.acceptTime}</td>
 					<td>${complain.complainPhone}</td>
 					<td>${complain.contactPhone}</td>

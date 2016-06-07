@@ -46,7 +46,7 @@ public class Complain extends Model<Complain> {
 		Page<Complain> pageList = paginate((offset / EmsConfig.pageSize) + 1,
 				EmsConfig.pageSize, sqlList.get(0),sqlList.get(1));
 		complainlist = pageList.getList();
-		changeValue(complainlist);
+//		changeValue(complainlist);
 		return complainlist;
 	}
 
@@ -123,6 +123,7 @@ public class Complain extends Model<Complain> {
 		if (StringKit.notBlank(jObject.getString("mark"))) {
 			String mark= jObject.getString("mark");
 			System.out.println("mark="+mark);
+			//按投诉原因分类
 			if ("fault".equals(mark)) {
 		
 				select="select faultCause,count(faultCause) as complainSum "
@@ -174,13 +175,17 @@ public class Complain extends Model<Complain> {
 					}
 		//			System.out.println("mark="+mark);
 					//			sb.append(" and shop_head.shop_head_id = '"+shop_head_id+"'" );
+			//按投诉时间分类
 			else if ("time".equals(mark)) {
-				select="select date_format(acceptTime,'%Y-%m-%d') acceptTime,count(acceptTime) as complainSum ";
-				sqlExceptSelect=" from complain_table "
+				select=" select acceptTime,count(acceptTime) as complainSum ";
+				sqlExceptSelect=" from (select date_format(acceptTime,'%Y-%m-%d') acceptTime from complain_table "
+						 +" where acceptTime >= DATE_ADD(curdate(),interval -day(curdate())+1 day) "
+						 +" and acceptTime <= last_day(curdate())) acceptTime_table "
 						 +" where 1 = 1 ";
 				sb.append(sqlExceptSelect);
 				sb.append("   group by  acceptTime  ");
 			}
+			//按投诉区域分类
 			else {
 				select="select district,count(district) as complainSum ";
 				sqlExceptSelect=" from complain_table "
@@ -227,7 +232,7 @@ public class Complain extends Model<Complain> {
 		complainlist = find("select * from complain_table where site LIKE '%"
 				+ condition + "%'");
 		System.out.println("findLikeComplainListSLQ = select * from complain_table where site LIKE '%"+ condition + "%'");
-		changeValue(complainlist);
+//		changeValue(complainlist);
 		return complainlist;
 	}
 
@@ -240,7 +245,7 @@ public class Complain extends Model<Complain> {
 		System.out.println("Complain进入findSignleComplain**************************************************");
 		List<Complain> list = new ArrayList<Complain>();
 		list.add(findById(id));
-		changeValue(list);
+//		changeValue(list);
 		return list.get(0);
 	}
 	
@@ -255,7 +260,7 @@ public class Complain extends Model<Complain> {
 	}
 
 	/**
-	 * 改变投诉状态标志位
+	 * 改变投诉类型标志位(暂不使用)
 	 * @param complainlist
 	 */
 	private void changeValue(List<Complain> complainlist) {
@@ -263,14 +268,14 @@ public class Complain extends Model<Complain> {
 			return;
 		}
 //		int currentUserId;
-		int currentStatus;
-		int urgencyStatus;
+//		int currentStatus;
+		int jobType;
 		for (Complain complain : complainlist) {
 //			currentUserId = Integer.parseInt(complain.get("currentUserId")
 //					.toString());
-			currentStatus = Integer.parseInt(complain.get("currentStatus")
-					.toString());
-			urgencyStatus = Integer.parseInt(complain.get("urgencyStatus")
+//			currentStatus = Integer.parseInt(complain.get("currentStatus")
+//					.toString());
+			jobType = Integer.parseInt(complain.get("jobType")
 					.toString());
 /*			if (currentUserId == -1) {
 				complain.put("currentUser", "无");
@@ -283,7 +288,13 @@ public class Complain extends Model<Complain> {
 					complain.put("currentUser", "无");
 				}
 			}*/
-			// 当前工单状态0:运行，1:完成，2删除
+			// 工单类型0:10086,2:7210086
+			if (jobType == 0) {
+				complain.set("jobType", "10086");
+			}else {
+				complain.set("jobType", "7210086");
+			}
+/*			// 当前工单状态0:运行，1:完成，2删除
 			if (currentStatus == 0) {
 				complain.set("currentStatus", "运行");
 			} else if (currentStatus == 1) {
@@ -298,7 +309,7 @@ public class Complain extends Model<Complain> {
 				complain.set("urgencyStatus", "紧急");
 			} else {
 				complain.set("urgencyStatus", "非常紧急");
-			}
+			}*/
 		}
 	}
 
@@ -337,8 +348,8 @@ public class Complain extends Model<Complain> {
 	 */
 	public boolean addComplain() {
 		System.out.println("Complain进入addComplain**************************************************");
-		this.set("currentStatus", 0);
-		this.set("urgencyStatus", 0);
+//		this.set("currentStatus", 0);
+//		this.set("urgencyStatus", 0);
 //		this.set("returnDate", "");
 //		this.set("subscribeNote","");
 		return this.save();
@@ -350,8 +361,8 @@ public class Complain extends Model<Complain> {
 	 * @return boolean
 	 */
 	public boolean backComplain() {
-		this.set("currentStatus", 1);
-		this.set("urgencyStatus", 0);
+//		this.set("currentStatus", 1);
+//		this.set("urgencyStatus", 0);
 //		this.set("returnDate", "");
 //		this.set("subscribeNote","");
 		return this.update();
@@ -378,7 +389,7 @@ public class Complain extends Model<Complain> {
 //			complain.set("equipNumber",equipNumber);
 //			complain.set("userType",userType);
 //			complain.set("site",map.get("宽带装机地址"));
-			complain.set("userType",map.get("用户品牌"));
+/*			complain.set("userType",map.get("用户品牌"));
 			complain.set("userCode",map.get("用户资费名称及代码"));
 			complain.set("installCity",map.get("安装区县"));
 			complain.set("userAcceptTime",map.get("用户预约上门时间"));
@@ -414,12 +425,56 @@ public class Complain extends Model<Complain> {
 			complain.set("responsible",map.get("区域负责人"));
 			complain.set("worker",map.get("维护员"));
 			complain.set("faultCause",map.get("故障原因"));
-			complain.set("faultDetail",map.get("故障详情"));
+			complain.set("faultDetail",map.get("故障详情"));*/
 			
 /*			complain.set("equipName",map.get("名称"));
 			complain.set("equipModel",map.get("型号"));
 			complain.set("price",price);
 			complain.set("buyDate",map.get("购买时间"));*/
+			
+			System.out.println("map="+map);
+			String str =(String)map.get("工单创建时间");
+			System.out.println("工单创建时间str="+str);	
+			System.out.println("用户姓名="+map.get("用户姓名"));	
+
+			complain.set("jobType",map.get("工单类型"));
+			complain.set("acceptTime",map.get("工单创建时间"));
+			complain.set("timeOut",map.get("超4小时时间"));
+			complain.set("userName",map.get("用户姓名"));
+			complain.set("complainPhone",map.get("账号"));
+			complain.set("contactPhone",map.get("联系电话"));
+			complain.set("describe",map.get("故障描述"));
+			complain.set("faultSite",map.get("用户地址"));
+			complain.set("district",map.get("网格"));
+			complain.set("community",map.get("小区"));
+			complain.set("worker",map.get("维护人员"));
+			complain.set("faultType",map.get("故障类型"));
+			complain.set("faultCause",map.get("故障真实原因"));
+			complain.set("disposeStatus",map.get("处理结果"));
+			complain.set("untreatedCause",map.get("未处理原因"));
+			if(map.get("反馈时间")==""){
+				complain.set("feedbackTime","1900-01-01 00:00:00");
+			}else{
+				complain.set("feedbackTime",map.get("反馈时间"));
+			}
+			complain.set("finishTime",map.get("完成时间"));
+			complain.set("handleTime",map.get("故障处理时长"));
+			complain.set("overTimeCause",map.get("超时原因（10小时）"));
+			if(map.get("工单打回时间")==""){
+				complain.set("rejectTime","1900-01-01 00:00:00");
+			}else{
+				complain.set("rejectTime",map.get("工单打回时间"));
+			}
+			if(map.get("打回结单时间")==""){
+				complain.set("rejectFinishTime","1900-01-01 00:00:00");
+			}else{
+				complain.set("rejectFinishTime",map.get("打回结单时间"));
+			}			
+			complain.set("facility",map.get("接入设备型号"));	
+			complain.set("port",map.get("接入端口号"));
+			complain.set("complainCause",map.get("用户投诉原因"));
+			complain.set("remark",map.get("用户投诉原因(备注)"));
+
 			return complain.addComplain();
 		}
 	}
@@ -432,7 +487,7 @@ public class Complain extends Model<Complain> {
 		System.out.println("Complain进入getAllComplainInfo**************************************************");
 		List<Complain> complainlist = find(Complain.QUERY_ALL_COMPLAININFO);
 		List<Map<String,Object>> list = null;
-		changeValue(complainlist);
+//		changeValue(complainlist);
 		if(complainlist!=null){
 			list = new ArrayList<Map<String,Object>>();
 			for(Complain complain:complainlist){

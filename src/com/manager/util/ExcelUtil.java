@@ -106,7 +106,7 @@ public class ExcelUtil {
 				} else if (type == HSSFCell.CELL_TYPE_NUMERIC) {
 					double num = cell.getNumericCellValue();
 					if (HSSFDateUtil.isCellDateFormatted(cell)) {
-						SimpleDateFormat  sdf = new SimpleDateFormat("yyyy-MM-dd");
+						SimpleDateFormat  sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 						value = sdf.format(DateUtil.getJavaDate(num));
 					} else {
 

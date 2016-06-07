@@ -195,13 +195,13 @@ public class ComplainController extends Controller{
 	/**
 	 * 将借出的投诉信息更改为在库状态
 	 */
-	public void back() {
+/*	public void back() {
 		System.out.println("进入back**************************************************");
 		int complainId = getParaToInt();
 		Complain complain = Complain.dao.findById(complainId);
 		complain.backComplain();
 		redirect("/complain/queryPageComplain?offset=1");
-	}
+	}*/
 
 	/**
 	 * 更新投诉

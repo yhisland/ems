@@ -1,0 +1,20 @@
+select curdate(),now(),date(now());
+
+
+select date_format(acceptTime,'%Y-%m-%d') acceptTime,count(acceptTime) as complainSum from complain_table  where 1 = 1    group by  acceptTime;
+
+
+select *,date_format(acceptTime,'%Y-%m-%d') acceptTime2 from complain_table  where 1 = 1    group by  acceptTime2;
+
+select date_format(acceptTime,'%Y-%m-%d') acceptTime,count(acceptTime) as complainSum from complain_table  where 1 = 1    group by  acceptTime;
+
+select date_format(acceptTime,'%Y-%m-%d') acceptTime from complain_table
+
+select acceptTime,count(acceptTime) as complainSum from (select date_format(acceptTime,'%Y-%m-%d') acceptTime from complain_table) acceptTime_table  where 1 = 1    group by  acceptTime;
+
+
+
+select acceptTime,count(acceptTime) as complainSum from (select date_format(acceptTime,'%Y-%m-%d') acceptTime from complain_table where acceptTime >= DATE_ADD(curdate(),interval -day(curdate())+1 day) and acceptTime <= last_day(curdate())) acceptTime_table  where 1 = 1    group by  acceptTime;
+
+
+select date_format(acceptTime,'%Y-%m-%d') acceptTime from complain_table where acceptTime between DATE_ADD(curdate(),interval -day(curdate())+1 day) and last_day(curdate());
