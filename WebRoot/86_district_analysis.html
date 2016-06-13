@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <head>
     <meta charset="utf-8">
-    <title>10086投诉-区域分析</title>
+    <title>投诉-区域分析</title>
     
     <script src="lib/jquery/jquery-1.4.4.min.js" type="text/javascript"></script>
     <script src="lib/echarts/echarts.js"></script>
@@ -70,7 +70,7 @@
 				],
 			    // 图表标题
 				title : {
-					text : '10086投诉-区域分析',
+					text : '投诉-区域分析',
 			        textStyle: {
 		            fontWeight: 'normal',
 		            color: '#008acd'          // 主标题文字颜色
@@ -106,7 +106,7 @@
 				},
 				xAxis : [ {
 					type : 'category',
-					boundaryGap : false,
+					boundaryGap : true,	//坐标轴两边留白策略，折线图修改属性为false，柱状图修改属性true（默认值）
 					data : data1	//横坐标数据
 				} ],
 				yAxis : [ {
@@ -118,7 +118,7 @@
 				}],
 				series : [{
 					name: "日投诉",
-					type: "line",   //		图表类型，必要参数！如为空或不支持类型，则该系列数据不被显示。可选为：
+					type: "bar",   //		图表类型，必要参数！如为空或不支持类型，则该系列数据不被显示。可选为：
 									//		'line'（折线图） | 'bar'（柱状图） | 'scatter'（散点图） | 'k'（K线图）
 									//		'pie'（饼图） | 'radar'（雷达图） | 'chord'（和弦图） | 'force'（力导向布局图） | 'map'（地图）
 					data: data2,

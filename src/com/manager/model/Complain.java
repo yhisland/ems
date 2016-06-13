@@ -176,6 +176,15 @@ public class Complain extends Model<Complain> {
 		//			System.out.println("mark="+mark);
 					//			sb.append(" and shop_head.shop_head_id = '"+shop_head_id+"'" );
 			//按投诉时间分类
+			//按72、86分类
+/*			else if ("time".equals(mark)) {
+				select=" select jobType72, acceptTime72,complainSum72,jobType86, acceptTime86,complainSum86  ";
+				sqlExceptSelect=" from (select jobType jobType72, acceptTime acceptTime72,count(acceptTime) as complainSum72 from (select jobType, date_format(acceptTime,'%Y-%m-%d') acceptTime from complain_table where acceptTime >= DATE_ADD(curdate(),interval -day(curdate())+1 day) and acceptTime <= last_day(curdate())and jobType = '7210086' ) acceptTime_table  where 1 = 1    group by  acceptTime) acceptTime_table72 left join(select jobType jobType86, acceptTime acceptTime86,count(acceptTime) as complainSum86 from (select jobType, date_format(acceptTime,'%Y-%m-%d') acceptTime from complain_table where acceptTime >= DATE_ADD(curdate(),interval -day(curdate())+1 day) and acceptTime <= last_day(curdate())and jobType = '10086' ) acceptTime_table  where 1 = 1    group by  acceptTime) acceptTime_table86 on acceptTime_table86.acceptTime86 = acceptTime_table72.acceptTime72 "
+						 +" where 1 = 1 ";
+				sb.append(sqlExceptSelect);
+				sb.append(" ");
+			}*/
+			//输出当月所有故障
 			else if ("time".equals(mark)) {
 				select=" select acceptTime,count(acceptTime) as complainSum ";
 				sqlExceptSelect=" from (select date_format(acceptTime,'%Y-%m-%d') acceptTime from complain_table "
@@ -191,7 +200,7 @@ public class Complain extends Model<Complain> {
 				sqlExceptSelect=" from complain_table "
 						 +" where 1 = 1 ";
 				sb.append(sqlExceptSelect);
-				sb.append("   group by  district  ");
+				sb.append(" group by  district order by complainSum Desc ");
 			}
 		}		
 		System.out.println("SQL="+select+sb.toString());
