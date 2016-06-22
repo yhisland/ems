@@ -8,10 +8,9 @@
 <script src="lib/ligerUI/js/ligerui.min.js" type="text/javascript"></script>        
 </head>
 <body>
-    <div id="main1" style="height:310px;width:1000px;margin:auto;top:10px;"></div>
+    <div id="main1" style="height:410px;width:1000px;margin:auto;top:10px;"></div>
     <script type="text/javascript">
-    
-    
+   
     
      //图形
 //$(function(){     
@@ -28,6 +27,11 @@
 		var data3=[/* 7, 3, 2, 12, 8, 12 */];
 		var data4=[1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31];
 		var mark = {"mark":"time"};
+ 
+/* 		formatDate:function(datestring){
+			if(datestring.length!=8) return;
+			return datestring.substring(2,4)+'/'+datestring.substring(4,6)+'/'+datestring.substring(6,8);
+			}, */ 
   	  
 		$.ajax({
 				type:'post',
@@ -105,10 +109,31 @@
 					},
 				},
 				xAxis : [ {
+					axisLabel: {//X轴坐标标签倾斜样式
+						rotate: 40,
+					},
 					type : 'category',
 					boundaryGap : false,
 					data : data1	//横坐标数据
+					/* data : function(){
+					var list = [];
+					for (var x in data1) {
+					if (x != '')
+					list.push(App.formatDate(x));
+					}
+					return list;
+					}() */
+					
+/* 					formatDate:function(datestring){
+if(datestring.length!=8) return;
+return datestring.substring(2,4)+'/'+datestring.substring(4,6)+'/'+datestring.substring(6,8);
+},  */
 				} ],
+				grid: {//控制 X轴跟Zoom控件之间的间隔，避免以为倾斜后造成 label重叠到zoom上
+					x: 60,
+					x2: 20,
+					y2: 100,
+					},
 				yAxis : [ {
 				type : 'value',
 				scale:true,

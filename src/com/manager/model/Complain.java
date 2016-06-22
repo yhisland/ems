@@ -126,7 +126,7 @@ public class Complain extends Model<Complain> {
 			//按投诉原因分类
 			if ("fault".equals(mark)) {
 		
-				select="select faultCause,count(faultCause) as complainSum "
+				select="select faultType,count(faultType) as complainSum "
 								 /*+"       creatdate," 
 								 +"       round(dsr_qual_score / dsr_qual_comt_cnt, 4) as dsr_qual," 
 								 +"       round(dsr_deli_score / dsr_deli_comt_cnt, 4) as dsr_deli," 
@@ -135,7 +135,7 @@ public class Complain extends Model<Complain> {
 						;
 				
 				sqlExceptSelect=" from complain_table "
-								 +" where 1 = 1 ";
+								 +" where 1 = 1 and jobType = '10086' ";
 		
 		//		StringBuffer sb=new StringBuffer();
 				sb.append(sqlExceptSelect);
@@ -171,7 +171,7 @@ public class Complain extends Model<Complain> {
 					sb.append(" and shop_head.shop_head_id = '"+shop_head_id+"'" );
 				}		
 				sb.append(" order by creatdate ");*/
-				sb.append("   group by  faultCause  ");
+				sb.append("   group by  faultType  order by  complainSum desc ");
 					}
 		//			System.out.println("mark="+mark);
 					//			sb.append(" and shop_head.shop_head_id = '"+shop_head_id+"'" );
@@ -184,6 +184,25 @@ public class Complain extends Model<Complain> {
 				sb.append(sqlExceptSelect);
 				sb.append(" ");
 			}*/
+			
+			//按投诉原因分类72
+			else if ("fault2".equals(mark)) {
+		
+				select="select faultType,count(faultType) as complainSum "
+								 /*+"       creatdate," 
+								 +"       round(dsr_qual_score / dsr_qual_comt_cnt, 4) as dsr_qual," 
+								 +"       round(dsr_deli_score / dsr_deli_comt_cnt, 4) as dsr_deli," 
+								 +"       round(dsr_serv_score / dsr_serv_comt_cnt, 4) as dsr_serv," 
+								 +"       round(dsr_logi_score / dsr_logi_comt_cnt, 4) as dsr_logi "*/
+						;
+				
+				sqlExceptSelect=" from complain_table "
+								 +" where 1 = 1 and jobType = '7210086' ";
+		
+		//		StringBuffer sb=new StringBuffer();
+				sb.append(sqlExceptSelect);
+				sb.append("   group by  faultType  order by  complainSum desc ");
+				}
 			//输出当月所有故障
 			else if ("time".equals(mark)) {
 				select=" select acceptTime,count(acceptTime) as complainSum ";
@@ -195,9 +214,21 @@ public class Complain extends Model<Complain> {
 				sb.append("   group by  acceptTime  ");
 			}
 			//按投诉区域分类
+			else if ("district".equals(mark)){
+				select="select district,count(district) as complainSum ";
+				sqlExceptSelect=" from (select district,date_format(acceptTime,'%Y-%m-%d') acceptTime from complain_table "
+						 +" where acceptTime >= DATE_ADD(curdate(),interval -day(curdate())+1 day) "
+						 +" and acceptTime <= last_day(curdate()) and jobType = '10086' ) acceptTime_table "
+						 +" where 1 = 1 ";
+				sb.append(sqlExceptSelect);
+				sb.append(" group by  district order by complainSum Desc ");
+			}
+			//按投诉区域分类72
 			else {
 				select="select district,count(district) as complainSum ";
-				sqlExceptSelect=" from complain_table "
+				sqlExceptSelect=" from (select district,date_format(acceptTime,'%Y-%m-%d') acceptTime from complain_table "
+						 +" where acceptTime >= DATE_ADD(curdate(),interval -day(curdate())+1 day) "
+						 +" and acceptTime <= last_day(curdate()) and jobType = '7210086' ) acceptTime_table "
 						 +" where 1 = 1 ";
 				sb.append(sqlExceptSelect);
 				sb.append(" group by  district order by complainSum Desc ");
